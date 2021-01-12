@@ -1,0 +1,34 @@
+<?php
+
+$lang['SPREADSHEET_ONLINE']                                                          = 'Full de càlcul en línia';
+$lang['spreadsheet_online']                                                          = 'Full de càlcul en línia';
+$lang['my_folder']                                                         			 = 'La meva carpeta';
+$lang['my_share_folder']                                                         	 = 'La meva carpeta de compartir';
+$lang['add_file']                                                         			 = 'Fitxer nou';
+$lang['add_folder']                                                         		 = 'Afegir carpeta';
+$lang['share']                                                         				 = 'Compartir';
+$lang['related']                                                         			 = 'Relacionat';
+$lang['expand_all']                                                         			 = 'Desplega-ho tot';
+$lang['collapse_all']                                                         			 = 'Col · lapsar tot';
+$lang['name']                                                         			 = 'Nom';
+$lang['kind']                                                         			 = 'amable';
+$lang['size']                                                         			 = 'Mida';
+$lang['add_new_folder']                                                         			 = 'Afegiu una carpeta nova';
+$lang['update_folder']                                                         			 = 'Actualitza la carpeta';
+$lang['name_folder']                                                         			 = 'Carpeta de noms';
+$lang['status_share']                                                         			 = 'Compartir estat';
+$lang['related_to']                                                         			 = 'Relacionat amb';
+$lang['related_value']                                                         			 = 'Valor relacionat';
+$lang['share_detail']                                                         			 = 'Veure el detall de la compartició';
+$lang['what_do_you_want_to_choose']                                                         			 = 'Què vols triar?';
+$lang['add_new_share']                                                         			 = 'Afegeix una nova compartició';
+$lang['add_new_related']                                                         			 = 'Afegeix un nou relacionat';
+$lang['department_share']                                                         			 = 'Compartiment del departament';
+$lang['staff_share']                                                         			 = 'Participació del personal';
+$lang['client_groups_share']                                                         			 = 'Compartir grups de clients';
+$lang['client_share']                                                         			 = 'Compartir client';
+$lang['new_file']                                                         			 = 'Fitxer nou';
+$lang['related_detail']                                                         			 = 'Detall relacionat';
+$lang['create_folder']                                                         			 = 'Crea una carpeta';
+$lang['create_file']                                                         			 = 'Crea un fitxer';
+$lang['save_as']                                                         			 = 'Guardar com';
