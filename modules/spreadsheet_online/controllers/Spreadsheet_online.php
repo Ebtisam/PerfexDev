@@ -163,7 +163,6 @@ class Spreadsheet_online extends AdminController
       $data_form['doc_type'] = "word";
       //log_message("error",$data_form['data_form']);
       if(isset($data_form['id'])){
-        log_message('error',strval($data_form['id']));
         if($data_form['id'] == ""){
           if($data_form['id'] == ""){
             //$data_form['data_form'] = html_purify(($data_form['data_form']));
@@ -353,6 +352,100 @@ class Spreadsheet_online extends AdminController
       }
       if(!isset($success)){
         $this->load->view('share_file_view', $data);
+      }
+    }
+
+    public function file_word_view_share($hash = ""){
+      log_message("error","file_word_view_share" );
+      $data_form = $this->input->post();
+      log_message("error","is set?" );
+      if(isset($data_form['id']))
+    {
+      log_message("error","is set?yes" );
+    }
+      $data['tree_save'] = json_encode($this->spreadsheet_online_model->get_folder_tree());
+
+      if($hash != ""){
+        log_message("error","hash" );
+        log_message("error",strval($hash) );
+        $share_child = $this->spreadsheet_online_model->get_share_form_hash($hash);
+        $id = $share_child->id_share;
+        log_message("error",strval($id) );
+        $file_excel = $this->spreadsheet_online_model->get_file_sheet($id);
+        $data['parent_id'] = $file_excel->parent_id;
+        $data['role'] = $share_child->role;
+        log_message("error","get parent and role");
+        log_message("error",strval($data['role']));
+        if (($share_child->rel_id != get_staff_user_id())) {
+              access_denied('spreadsheet_online');
+        }
+      }else{
+        $id = "";
+        $data['parent_id'] = "";
+        $data['role'] = 1;
+      }
+
+      $data_form = $this->input->post();
+      log_message("error","is set?" );
+      if(isset($data_form['id']))
+    {
+      log_message("error","is set?yes" );
+    }
+      log_message("error","inside share controller");
+      $data['title'] = _l('new_file');
+      $data['folder'] = $this->spreadsheet_online_model->get_my_folder_all();
+      if($data_form || isset($data_form['id'])){
+        if($data_form['id'] == ""){
+          $success = $this->spreadsheet_online_model->add_file_sheet($data_form);
+          if(is_numeric($success)){
+            $message = _l('added_successfully');
+            $file_excel = $this->spreadsheet_online_model->get_file_sheet($success);
+            echo json_encode(['success' => true, 'message' => $message, 'name_excel' => $file_excel->name ]);
+          }
+          else{
+            $message = _l('added_fail');
+            echo json_encode(['success' => false, 'message' => $message]);
+          }
+        }
+      }
+      log_message("error",strval($id));
+      if($id != "" || isset($data_form['id'])){
+        if(isset($data_form['id'])){
+          log_message("error","id isset dataform");
+          if($data_form['id'] != ""){
+            $data['id'] = $data_form['id'];
+          }
+        }
+        else{
+          log_message("error","get dataform");
+          $data['id'] = $id;
+          $data['file_excel'] = $this->spreadsheet_online_model->get_file_sheet($data['id']);
+          $mystring = $data['file_excel']->data_form;
+          $findme   = 'images';
+          $pos = strpos($mystring, $findme);
+          if($pos){
+            $data['data_form'] = str_replace('""', '"', $data['file_excel']->data_form); 
+          }else{
+            $data['data_form'] = $data['file_excel']->data_form; 
+          }
+        }
+
+        if($data_form && $data_form['id'] != ""){
+          log_message("error","update dataform");
+          $data_form['data_form'] = $this->input->post('data_form',false);
+          $success = $this->spreadsheet_online_model->edit_file_sheet($data_form);
+          if($success == true){
+            $message = _l('updated_successfully');
+            echo json_encode(['success' => $success, 'message' => $message]);
+          }
+          else{
+            $message = _l('updated_fail');
+            echo json_encode(['success' => $success, 'message' => $message]);
+          }
+        }
+      }
+      if(!isset($success)){
+        $this->load->view('share_word_file_view', $data);
       }
     }
     /**

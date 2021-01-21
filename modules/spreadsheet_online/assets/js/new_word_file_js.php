@@ -55,6 +55,7 @@
     if(role == 1){
       $('.luckysheet_info_detail_save_as').remove();
       $('.luckysheet_info_detail_save').remove();
+      $('.word_info_detail_save').remove();
     }
       
   })(jQuery);

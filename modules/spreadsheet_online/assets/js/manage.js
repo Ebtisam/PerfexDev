@@ -174,9 +174,19 @@
             window.location.replace(admin_url + 'spreadsheet_online/new_word_file_view/'+parent_id+'/'+id_set);
           }
           else if(share == true){
+            alert("it is share only");
             requestGet(admin_url + 'spreadsheet_online/get_hash_staff/' + id_set).done(function(response) {
               response = JSON.parse(response);
-              window.location.replace(admin_url + 'spreadsheet_online/file_view_share/'+response.hash);
+              if(doc_type == "excel")
+              {
+                window.location.replace(admin_url + 'spreadsheet_online/file_view_share/'+response.hash);
+
+              }
+              else if(doc_type == "word")
+              {
+                window.location.replace(admin_url + 'spreadsheet_online/file_word_view_share/'+response.hash);
+
+              }
             })
           }else if(share == "related"){
             //get inddex of related object
