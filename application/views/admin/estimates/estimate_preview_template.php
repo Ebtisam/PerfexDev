@@ -52,6 +52,7 @@
                      </span>
                      </a>
                   </li>
+                  <?php hooks()->do_action('after_li_estimate_view'); ?>
                   <li role="presentation" data-toggle="tooltip" title="<?php echo _l('emails_tracking'); ?>" class="tab-separator">
                      <a href="#tab_emails_tracking" aria-controls="tab_emails_tracking" role="tab" data-toggle="tab">
                      <?php if(!is_mobile()){ ?>
@@ -513,6 +514,7 @@
                <hr />
                <?php } ?>
             </div>
+            <?php hooks()->do_action('after_tab_estimate_content',$estimate); ?>
          </div>
       </div>
    </div>
