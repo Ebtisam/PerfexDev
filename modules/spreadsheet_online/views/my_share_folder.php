@@ -1,5 +1,5 @@
 <div class="row">
-	<div class="col-sm-12">
+	<div class="col-sm-12 button-group__mono-colors" data-share="true">
 		<table id="spreadsheet-advanced">
 			<caption>
 				<a href="#" class="btn btn-info caption-a" onclick="jQuery('#spreadsheet-advanced').treetable('expandAll'); return false;"><span class="expand-all"></span><?php echo _l('expand_all')?></a>
@@ -10,6 +10,8 @@
 					<th><?php echo _l('name') ?></th>
 					<th><?php echo _l('kind') ?></th>
 					<th><?php echo _l('size') ?></th>
+					<th><?php echo 'type' ?></th>
+					<!-- till now type is not translated -->
 				</tr>
 			</thead>
 			<?php echo html_entity_decode($folder_my_share_tree); ?>
