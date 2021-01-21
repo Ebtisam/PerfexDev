@@ -179,8 +179,13 @@
               window.location.replace(admin_url + 'spreadsheet_online/file_view_share/'+response.hash);
             })
           }else if(share == "related"){
-            //Changing ID??!!
-            var pathname = window.location.pathname.split('/')[3];
+            //get inddex of related object
+            function checkAdmin(name) {
+              return name == "admin";
+            }
+            var pathnames = window.location.pathname.split('/');
+            var admin_index = pathnames.findIndex(checkAdmin);
+            var pathname = pathnames[admin_index+1];
             alert("share is related");
             alert(pathname);
             switch (pathname){
