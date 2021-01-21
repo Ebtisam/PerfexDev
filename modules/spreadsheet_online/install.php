@@ -8,6 +8,7 @@ if (!$CI->db->table_exists(db_prefix() . 'spreadsheet_online_my_folder')) {
       `parent_id` TEXT NOT NULL,
       `name` TEXT NOT NULL,
       `type` VARCHAR(20) NULL,
+      `doc_type` VARCHAR(20) NULL,
       `size` text NULL,
       `staffid` int(11) NOT NULL,
       `category` varchar(20) NOT NULL DEFAULT 'my_folder',

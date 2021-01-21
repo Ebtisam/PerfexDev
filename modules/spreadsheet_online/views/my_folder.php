@@ -169,6 +169,7 @@
 					<th><?php echo _l('name') ?></th>
 					<th><?php echo _l('kind') ?></th>
 					<th><?php echo _l('related_to') ?></th>
+					<th><?php echo "Type" ?></th>
 				</tr>
 			</thead>
 			<?php echo html_entity_decode($folder_my_tree); ?>
@@ -292,6 +293,41 @@
 		</div>
 	</div>
 </div>
+
+<!-- My Code -->
+<!-- PickFileTypeModal -->
+<div class="modal fade" id="PickFileTypeModal" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title open-new">New Document</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-md-12 col-sm-12">
+					<input type="hidden" name="parent_id"/>
+					<div class="form-group">
+							<label for="placement" class="control-label clearfix"><?php echo _l('settings_sales_currency_placement'); ?></label>
+							<div class="radio radio-primary radio-inline">
+								<input type="radio" name="doctype" value="word" id="word" checked>
+								<label for="word" >Word</label>
+							</div>
+							<div class="radio radio-primary radio-inline">
+								<input type="radio" name="doctype" id="excel" value="excel">
+								<label for="excel">Excel</label>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default pick_type_button"  data-dismiss="modal">ok</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- End My Code -->
 
 <div class="modal fade" id="ShareModal" role="dialog">
 	<?php echo form_hidden('value-hidden'); ?>

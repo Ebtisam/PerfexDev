@@ -139,8 +139,9 @@
 
 
     $('#spreadsheet-advanced .tr-pointer').on('click', function(){
+      //alert("hello");
       var id = $(this).parents("tr").data("tt-id");
-      var type = $(this).parents("tr").data("tt-type");
+      var type = $(this).parents("tr").data("tt-type");;
       $('#share-form input[name="id"]').val(id);
       $('#related-form input[name="id"]').val(id);
 
@@ -151,26 +152,37 @@
       }
       $('#AddFolderModal input[name="parent_id"]').val(id);
     })
-
+    //Is this Double Click
     $(document).on("dblclick","#spreadsheet-advanced .tr-pointer",function() {
+      alert("Double!!");
         var type = $(this).parents("tr").data("tt-type");
         var parent_id = $(this).parents('tr').data('tt-parent-id');
         parent_id = parent_id == undefined ? 0 : parent_id;
         var id_set = $(this).parents('tr').data('tt-id');
         var name = $(this).parents('tr').data('tt-name');
+        var doc_type = $(this).parents('tr').data('tt-doctype');
         var share = $('.button-group__mono-colors').data('share');
         share = share == undefined ? "related" : share;
 
         if(type == "file"){
-          if(share == false){
+          alert("double click");
+          alert(doc_type);
+          if(share == false && doc_type =="excel"){
             window.location.replace(admin_url + 'spreadsheet_online/new_file_view/'+parent_id+'/'+id_set);
-          }else if(share == true){
+          }
+          else if(share == false && doc_type =="word"){
+            window.location.replace(admin_url + 'spreadsheet_online/new_word_file_view/'+parent_id+'/'+id_set);
+          }
+          else if(share == true){
             requestGet(admin_url + 'spreadsheet_online/get_hash_staff/' + id_set).done(function(response) {
               response = JSON.parse(response);
               window.location.replace(admin_url + 'spreadsheet_online/file_view_share/'+response.hash);
             })
           }else if(share == "related"){
-            var pathname = window.location.pathname.split('/')[2];
+            //Changing ID??!!
+            var pathname = window.location.pathname.split('/')[3];
+            alert("share is related");
+            alert(pathname);
             switch (pathname){
               case "invoices" :
               pathname = "invoice";
@@ -195,11 +207,23 @@
               case "projects" :
               pathname = "project";
               var related_id = $('input[name="project_id"]').val();
+              alert("Projects");
               break;
             }
             requestGet(admin_url + 'spreadsheet_online/get_hash_related/' + related_id + '/' + pathname + '/' + id_set).done(function(response) {
+              alert(related_id);
+              alert(id_set);
               response = JSON.parse(response);
-              window.location.replace(admin_url + 'spreadsheet_online/file_view_share_related/'+response.hash);
+              if(doc_type == "excel")
+              {
+                window.location.replace(admin_url + 'spreadsheet_online/file_view_share_related/'+response.hash);
+
+              }
+              else if(doc_type == "word")
+              {
+                window.location.replace(admin_url + 'spreadsheet_online/file_word_view_share_related/'+response.hash);
+
+              }
             })
           }
         }else{
@@ -210,10 +234,35 @@
     });
 
     $('.add_file_button').on('click', function(){
+      //Old Code
+      //var parent_id = $("input[name='parent_id']").val() == "" ? 0 : $("input[name='parent_id']").val();
+      //window.location.replace(admin_url + 'spreadsheet_online/new_file_view/'+parent_id);
+      //My Code
       var parent_id = $("input[name='parent_id']").val() == "" ? 0 : $("input[name='parent_id']").val();
-      window.location.replace(admin_url + 'spreadsheet_online/new_file_view/'+parent_id);
+      alert("change file type");
+      $('#PickFileTypeModal input[name="parent_id"]').val(parent_id);
+      //alert("pick file type");
+      $('#PickFileTypeModal').modal('show');
     })
 
+    //My Code pick_type_button
+    $('.pick_type_button').on('click', function(){
+      var selectedValue = $("#PickFileTypeModal input[name=doctype]:checked").val();
+      //alert(selectedValue);
+      var parent_id = $('#PickFileTypeModal input[name="parent_id"]').val();
+      //alert(parent_id);
+      if (selectedValue == "excel")
+      {
+        window.location.replace(admin_url + 'spreadsheet_online/new_file_view/'+parent_id);
+      }
+      else if (selectedValue == "word")
+      {
+        alert("word");
+        window.location.replace(admin_url + 'spreadsheet_online/new_word_file_view/'+parent_id);
+      }
+      })         
+    
+    //End My Code
 
     
     $(document).mouseup(function(e) 

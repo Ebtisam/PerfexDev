@@ -203,6 +203,7 @@
    </div>
    <?php } ?>
 </div>
+<?php hooks()->do_action('after_project_member_list', $project); ?>" "<?php hooks()->do_action('after_project_member_list', $project); ?>
 </div>
 <div class="col-md-6 project-overview-right">
    <div class="row">

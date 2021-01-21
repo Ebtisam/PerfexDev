@@ -265,19 +265,23 @@ function getPosition(e) {
         var name = taskItemInContext.getAttribute('data-tt-name');
         var share = $('.button-group__mono-colors').data('share');
         var role = taskItemInContext.getAttribute('data-tt-role');
-
+        var doc_type = taskItemInContext.getAttribute('data-tt-doctype')
         var moveToAlbumSelectedId = link.getAttribute("data-action");
 
         //start
         switch(moveToAlbumSelectedId) {
         	case 'edit':
-
         	if(type == 'file'){
         		$('#AddFolderModal').modal('hide');
 
-        		if(share == false){
+        		if(share == false && doc_type == "excel"){
         			window.location.replace(admin_url + 'spreadsheet_online/new_file_view/'+parent_id+'/'+id_set);
-        		}else{
+            }
+            else if(share == false && doc_type == "word")
+            {
+              window.location.replace(admin_url + 'spreadsheet_online/new_word_file_view/'+parent_id+'/'+id_set);
+            }
+            else{
         			requestGet(admin_url + 'spreadsheet_online/get_hash_staff/' + id_set).done(function(response) {
         				response = JSON.parse(response);
         				window.location.replace(admin_url + 'spreadsheet_online/file_view_share/'+response.hash);
@@ -453,8 +457,16 @@ requestGet(admin_url + 'spreadsheet_online/get_folder_zip/'+ id_set + '/' + name
 break;
 case "d_file":
 requestGet(admin_url + 'spreadsheet_online/get_file_sheet/'+ id_set).done(function(response) {
-	response = JSON.parse(response);
-	exportExcel(JSON.parse(response), name);
+  response = JSON.parse(response);
+  if (doc_type == "word")
+  {
+    ExportToDoc(response,name);
+  }
+  else
+  {
+    exportExcel(JSON.parse(response), name);
+  }
+	
 })
 break;
 case "create_file":

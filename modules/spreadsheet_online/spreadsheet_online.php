@@ -132,6 +132,11 @@ function spreadsheet_online_add_head_component(){
         echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/spectrum.min.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
         echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/chartmix.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
     }
+
+    if (!(strpos($viewuri,'admin/spreadsheet_online/new_word_file_view') === false) || !(strpos($viewuri,'admin/spreadsheet_online/file_word_view_share') === false)) {
+      echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/ComboTree/style.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
+      echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/css/manage.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
+  }
 }
 
 /**
@@ -158,6 +163,8 @@ function spreadsheet_online_load_js(){
         echo '<script type="module" src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/excel.js').'?v=' . VERSION_SREADSHEET.'"></script>';
         echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/FileSaver.js').'?v=' . VERSION_SREADSHEET.'"></script>';
         echo '<script  src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/js/exports.js').'?v=' . VERSION_SREADSHEET.'"></script>';
+        echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/js/export_word.js').'?v=' . VERSION_SREADSHEET.'"></script>';
+
     }
     if (!(strpos($viewuri,'admin/projects/view') === false)  || !(strpos($viewuri,'admin/estimates') === false) || !(strpos($viewuri,'admin/proposals') === false) || !(strpos($viewuri,'admin/invoices') === false) || !(strpos($viewuri,'admin/expenses') === false) || !(strpos($viewuri,'admin/leads') === false)) {
 
@@ -190,6 +197,16 @@ function spreadsheet_online_load_js(){
         echo '<script  src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/js/exports.js').'?v=' . VERSION_SREADSHEET.'"></script>';
         echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/js/upload_file.js').'?v=' . VERSION_SREADSHEET.'"></script>';
         echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/js/luckyexcel.js').'?v=' . VERSION_SREADSHEET.'"></script>';
+    }
+
+    if (!(strpos($viewuri,'admin/spreadsheet_online/new_word_file_view') === false) || !(strpos($viewuri,'admin/spreadsheet_online/file_word_view_share') === false)) {
+
+      echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/ComboTree/comboTreePlugin.js').'?v=' . VERSION_SREADSHEET.'"></script>';
+      echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/ComboTree/icontains.js').'?v=' . VERSION_SREADSHEET.'"></script>';
+      echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/js/manage.js').'?v=' . VERSION_SREADSHEET.'"></script>';
+      echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/FileSaver.js').'?v=' . VERSION_SREADSHEET.'"></script>';
+      echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/TinymceHelper/helper.js').'?v=' . VERSION_SREADSHEET.'"></script>';
+  
     }
 
 }

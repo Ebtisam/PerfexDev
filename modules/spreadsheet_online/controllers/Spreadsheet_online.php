@@ -85,6 +85,7 @@ class Spreadsheet_online extends AdminController
       $data['parent_id'] = $parent_id;
       $data['folder'] = $this->spreadsheet_online_model->get_my_folder_all();
       $data['role'] = "";
+      $data_form['doc_type'] = "excel";
       if(isset($data_form['id'])){
         if($data_form['id'] == ""){
           if($data_form['id'] == ""){
@@ -149,6 +150,78 @@ class Spreadsheet_online extends AdminController
         $this->load->view('new_file_view', $data);
       }
     }
+
+    //my code
+    public function new_word_file_view($parent_id, $id = ""){
+      log_message("error","inside contflasler");
+      $data_form = $this->input->post();
+      $data_form['data_form'] = $this->input->post('data_form',false);
+      $data['title'] = _l('new_file');
+      $data['parent_id'] = $parent_id;
+      $data['folder'] = $this->spreadsheet_online_model->get_my_folder_all();
+      $data['role'] = "";
+      $data_form['doc_type'] = "word";
+      //log_message("error",$data_form['data_form']);
+      if(isset($data_form['id'])){
+        log_message('error',strval($data_form['id']));
+        if($data_form['id'] == ""){
+          if($data_form['id'] == ""){
+            //$data_form['data_form'] = html_purify(($data_form['data_form']));
+            $success = $this->spreadsheet_online_model->add_file_sheet($data_form);
+            if(is_numeric($success)){
+              $message = _l('added_successfully');
+              $file_excel = $this->spreadsheet_online_model->get_file_sheet($success);
+              //$file_excel->data_form = (($file_excel->data_form));
+
+              echo json_encode(['success' => true, 'message' => $message, 'name_excel' => $file_excel->name ]);
+            }
+            else{
+              $message = _l('added_fail');
+              echo json_encode(['success' => false, 'message' => $message]);
+            }
+          }
+        }
+        if($data_form['id'] != ""){
+          if(isset($data_form['id'])){
+            if($data_form['id'] != ""){
+              $data['id'] = $data_form['id'];
+            }
+          }else{
+            $data['id'] = $id;
+            $data['file_excel'] = $this->spreadsheet_online_model->get_file_sheet($data['id']);
+            $data['data_form'] = $file_excel->data_form;
+            log_message("error","Hi"); 
+            log_message("error",$data['data_form']); 
+          }
+
+          if($data_form && $data_form['id'] != ""){
+            $success = $this->spreadsheet_online_model->edit_file_sheet($data_form);
+            if($success == true){
+              $message = _l('updated_successfully');
+              echo json_encode(['success' => $success, 'message' => $message]);
+            }
+            else{
+              $message = _l('updated_fail');
+              echo json_encode(['success' => $success, 'message' => $message]);
+            }
+          }
+        }
+      }
+      
+      if($id != ''){
+        $data['id'] = $id;
+        $data['file_excel'] = $this->spreadsheet_online_model->get_file_sheet($data['id']);
+        $mystring =html_entity_decode( $data['file_excel']->data_form);
+        $data['data_form'] = $mystring; 
+        log_message("error","mstring");
+        }
+
+      $data['tree_save'] = json_encode($this->spreadsheet_online_model->get_folder_tree());
+      if(!isset($success)){
+        $this->load->view('new_word_file_view', $data);
+      }
+    }
+    //End my code
     /**
      * delete folder file
      * @param  int $id 
@@ -553,6 +626,75 @@ class Spreadsheet_online extends AdminController
       }
       if(!isset($success)){
         $this->load->view('share_file_view', $data);
+      }
+    }
+
+    public function file_word_view_share_related($hash = ""){
+      $data_form = $this->input->post();
+      $data_form['data_form'] = $this->input->post('data_form',false);
+      $data['tree_save'] = json_encode($this->spreadsheet_online_model->get_folder_tree());
+      $data_form['doc_type'] = "word";
+      if($hash != ""){
+        $share_child = $this->spreadsheet_online_model->get_share_form_hash_related($hash);
+        $id = $share_child->parent_id;
+        $file_excel = $this->spreadsheet_online_model->get_file_sheet($id);
+        $data['parent_id'] = $file_excel->parent_id;
+        $data['role'] = $share_child->role;
+      }else{
+        $id = "";
+        $data['parent_id'] = "";
+        $data['role'] = 1;
+      }
+
+      $data_form = $this->input->post();
+      $data['title'] = _l('new_file');
+      $data['folder'] = $this->spreadsheet_online_model->get_my_folder_all();
+      if($data_form || isset($data_form['id'])){
+        if($data_form['id'] == ""){
+          $success = $this->spreadsheet_online_model->add_file_sheet($data_form);
+          if(is_numeric($success)){
+            $message = _l('added_successfully');
+            $file_excel = $this->spreadsheet_online_model->get_file_sheet($success);
+            echo json_encode(['success' => true, 'message' => $message, 'name_excel' => $file_excel->name ]);
+          }
+          else{
+            $message = _l('added_fail');
+            echo json_encode(['success' => false, 'message' => $message]);
+          }
+        }
+      }
+      if($id != "" || isset($data_form['id'])){
+        if(isset($data_form['id'])){
+          if($data_form['id'] != ""){
+            $data['id'] = $data_form['id'];
+          }
+        }else{
+          $data['id'] = $id;
+          $data['file_excel'] = $this->spreadsheet_online_model->get_file_sheet($data['id']);
+          $mystring = $data['file_excel']->data_form;
+          $findme   = 'images';
+          $pos = strpos($mystring, $findme);
+          if($pos){
+            $data['data_form'] = str_replace('""', '"', $data['file_excel']->data_form); 
+          }else{
+            $data['data_form'] = $data['file_excel']->data_form; 
+          }
+        }
+
+        if($data_form && $data_form['id'] != ""){
+          $success = $this->spreadsheet_online_model->edit_file_sheet($data_form);
+          if($success == true){
+            $message = _l('updated_successfully');
+            echo json_encode(['success' => $success, 'message' => $message]);
+          }
+          else{
+            $message = _l('updated_fail');
+            echo json_encode(['success' => $success, 'message' => $message]);
+          }
+        }
+      }
+      if(!isset($success)){
+        $this->load->view('share_word_file_view', $data);
       }
     }
 }

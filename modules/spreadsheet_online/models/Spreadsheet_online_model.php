@@ -41,7 +41,7 @@ class Spreadsheet_online_model extends App_Model
 		$type= $root['type'] == 'folder' ? "folder" : "file";
 		$status_share = $root['staffs_share'] != '' || $root['departments_share'] != '' || $root['clients_share'] != '' || $root['client_groups_share'] != '' ? $html_change : '';
 		if($parent_id == ''){
-			$tree_tr .= '<tr class="right-menu-position" data-tt-id="'.$root['id'].'" data-tt-name="'.$root['name'].'" data-tt-type="'.$type.'">';
+			$tree_tr .= '<tr class="right-menu-position" data-tt-id="'.$root['id'].'" data-tt-name="'.$root['name'].'" data-tt-doctype="'.$root['doc_type'].'" data-tt-type="'.$type.'">';
 			$tree_tr .= '
 			<td>
 			<span class="tr-pointer '.$root['type'].'">'.$root['name'].'  '.$status_share.'</span>
@@ -62,8 +62,9 @@ class Spreadsheet_online_model extends App_Model
 			}
 
 			$tree_tr .= '</td>';
+			$tree_tr .='<td>'.$root['doc_type'].'</td>';
 		}else{
-			$tree_tr .= '<tr class="right-menu-position" data-tt-id="'.$root['id'].'" data-tt-name="'.$root['name'].'" data-tt-parent-id="'.$parent_id.'" data-tt-type="'.$type.'">';
+			$tree_tr .= '<tr class="right-menu-position" data-tt-id="'.$root['id'].'" data-tt-name="'.$root['name'].'" data-tt-parent-id="'.$parent_id.'" data-tt-doctype="'.$root['doc_type'].'" data-tt-type="'.$type.'">';
 			$tree_tr .= '
 			<td>
 			<span class="tr-pointer '.$root['type'].'">'.$root['name'].'  '.$status_share.'</span>
@@ -82,6 +83,8 @@ class Spreadsheet_online_model extends App_Model
 			}
 
 			$tree_tr .= '</td>';
+			$tree_tr .='<td>'.$root['doc_type'].'</td>';
+
 		}
 
 		$data = $this->get_my_folder_by_parent_id($root['id']);
