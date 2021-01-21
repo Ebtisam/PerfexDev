@@ -10,6 +10,7 @@
 					<th><?php echo _l('name') ?></th>
 					<th><?php echo _l('kind') ?></th>
 					<th><?php echo _l('related_to') ?></th>
+					<th><?php echo _l('type') ?></th>
 				</tr>
 			</thead>
 			<?php echo html_entity_decode($folder_my_tree); ?>

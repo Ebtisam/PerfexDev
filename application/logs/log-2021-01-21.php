@@ -179,3 +179,11 @@ ERROR - 2021-01-21 13:34:30 --> Could not find the language line "add_new_action
 ERROR - 2021-01-21 13:34:30 --> Could not find the language line "update_action"
 ERROR - 2021-01-21 13:34:41 --> Could not find the language line "add_new_action"
 ERROR - 2021-01-21 13:34:41 --> Could not find the language line "update_action"
+ERROR - 2021-01-21 12:57:50 --> 404 Page Not Found: /index
+ERROR - 2021-01-21 12:57:50 --> 404 Page Not Found: /index
+ERROR - 2021-01-21 13:59:11 --> Could not find the language line "type"
+ERROR - 2021-01-21 13:59:11 --> Could not find the language line "type"
+ERROR - 2021-01-21 12:59:13 --> 404 Page Not Found: /index
+ERROR - 2021-01-21 12:59:13 --> 404 Page Not Found: /index
+ERROR - 2021-01-21 12:59:24 --> 404 Page Not Found: /index
+ERROR - 2021-01-21 12:59:24 --> 404 Page Not Found: /index
