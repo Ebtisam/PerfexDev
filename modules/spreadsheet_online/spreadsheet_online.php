@@ -334,6 +334,13 @@ function spreadsheet_online_client_foot_js(){
     echo '<script  src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/excel.js').'?v=' . VERSION_SREADSHEET.'"></script>';
     echo '<script  src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/js/exports.js').'?v=' . VERSION_SREADSHEET.'"></script>';
 }
+if(!(strpos($viewuri,'spreadsheet_online/spreadsheet_online_client/file_word_view_share') === false)){
+  echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/ComboTree/comboTreePlugin.js').'?v=' . VERSION_SREADSHEET.'"></script>';
+  echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/ComboTree/icontains.js').'?v=' . VERSION_SREADSHEET.'"></script>';
+  echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/FileSaver.js').'?v=' . VERSION_SREADSHEET.'"></script>';
+  echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/TinymceHelper/helper.js').'?v=' . VERSION_SREADSHEET.'"></script>';
+
+}
 }
 
 

@@ -784,21 +784,23 @@ class Spreadsheet_online_model extends App_Model
 		$tree_tr = '';
 		$type= $root['type'] == 'folder' ? "folder" : "file";
 		if($parent_id == ''){
-			$tree_tr .= '<tr class="right-menu-position" data-tt-id="'.$root['id'].'" data-tt-role="'.$get_hash->role.'" data-tt-name="'.$root['name'].'" data-tt-type="'.$type.'">';
+			$tree_tr .= '<tr class="right-menu-position" data-tt-id="'.$root['id'].'" data-tt-role="'.$get_hash->role.'" data-tt-name="'.$root['name'].'" data-tt-doctype="'.$root['doc_type'].'" data-tt-type="'.$type.'">';
 			$tree_tr .= '
 			<td>
 			<span class="tr-pointer '.$root['type'].'">'.$root['name'].'</span>
 			</td>';
 			$tree_tr .= '<td class="qcont">'.$root['type'].'</td>';
 			$tree_tr .= '<td>'.$root['size'].'</td>';
+			$tree_tr .= '<td>'.$root['doc_type'].'</td>';
 		}else{
-			$tree_tr .= '<tr class="right-menu-position" data-tt-id="'.$root['id'].'" data-tt-role="'.$get_hash->role.'" data-tt-name="'.$root['name'].'" data-tt-parent-id="'.$parent_id.'" data-tt-type="'.$type.'">';
+			$tree_tr .= '<tr class="right-menu-position" data-tt-id="'.$root['id'].'" data-tt-role="'.$get_hash->role.'" data-tt-name="'.$root['name'].'" data-tt-doctype="'.$root['doc_type'].'" data-tt-parent-id="'.$parent_id.'" data-tt-type="'.$type.'">';
 			$tree_tr .= '
 			<td>
 			<span class="tr-pointer '.$root['type'].'">'.$root['name'].'</span>
 			</td>';
 			$tree_tr .= '<td class="qcont">'.$root['type'].'</td>';
 			$tree_tr .= '<td>'.$root['size'].'</td>';
+			$tree_tr .= '<td>'.$root['doc_type'].'</td>';
 		}
 
 		$data = $this->get_my_folder_by_parent_id($root['id']);

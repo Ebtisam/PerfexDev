@@ -283,8 +283,16 @@ function getPosition(e) {
             }
             else{
         			requestGet(admin_url + 'spreadsheet_online/get_hash_staff/' + id_set).done(function(response) {
-        				response = JSON.parse(response);
-        				window.location.replace(admin_url + 'spreadsheet_online/file_view_share/'+response.hash);
+                response = JSON.parse(response);
+                if(doc_type == "word")
+                {
+                  window.location.replace(admin_url + 'spreadsheet_online/file_view_share/'+response.hash);
+                }
+                else if(doc_type == "excel")
+                {
+                  window.location.replace(admin_url + 'spreadsheet_online/file_word_view_share/'+response.hash);
+
+                }
         			})
         		}
         	}else{

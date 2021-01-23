@@ -140,14 +140,31 @@
       var id_set = $(this).parents('tr').data('tt-id');
       var name = $(this).parents('tr').data('tt-name');
       var share = $('.button-group__mono-colors').data('share');
+      var doc_type = $(this).parents('tr').data('tt-doctype');
 
       if(type == "file"){
-        if(share == false){
+        if(share == false && doc_type =="excel"){
+          
           window.location.replace(admin_url + 'spreadsheet_online/new_file_view/'+parent_id+'/'+id_set);
-        }else{
+        }
+        else if(share == false && doc_type =="word"){
+          window.location.replace(admin_url + 'spreadsheet_online/new_word_file_view/'+parent_id+'/'+id_set);
+        }
+        else{
+          alert("share");
           $.get(site_url + 'spreadsheet_online/spreadsheet_online_client/get_hash_client/' + id_set).done(function(response) {
             response = JSON.parse(response);
-            window.location.replace(site_url + 'spreadsheet_online/spreadsheet_online_client/file_view_share/'+response.hash);
+            if(doc_type == "excel")
+            {
+              window.location.replace(site_url + 'spreadsheet_online/spreadsheet_online_client/file_view_share/'+response.hash);
+
+            }
+            else if(doc_type == "word")
+            {
+              alert("word");
+              window.location.replace(site_url + 'spreadsheet_online/spreadsheet_online_client/file_word_view_share/'+response.hash);
+
+            }
           })
         }
       }else{
