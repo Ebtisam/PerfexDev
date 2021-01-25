@@ -154,7 +154,7 @@
     })
     //Is this Double Click
     $(document).on("dblclick","#spreadsheet-advanced .tr-pointer",function() {
-      alert("Double!!");
+      //alert"Double!!");
         var type = $(this).parents("tr").data("tt-type");
         var parent_id = $(this).parents('tr').data('tt-parent-id');
         parent_id = parent_id == undefined ? 0 : parent_id;
@@ -165,8 +165,8 @@
         share = share == undefined ? "related" : share;
 
         if(type == "file"){
-          alert("double click");
-          alert(doc_type);
+          //alert"double click");
+          //alertdoc_type);
           if(share == false && doc_type =="excel"){
             window.location.replace(admin_url + 'spreadsheet_online/new_file_view/'+parent_id+'/'+id_set);
           }
@@ -174,7 +174,7 @@
             window.location.replace(admin_url + 'spreadsheet_online/new_word_file_view/'+parent_id+'/'+id_set);
           }
           else if(share == true){
-            alert("it is share only");
+            //alert"it is share only");
             requestGet(admin_url + 'spreadsheet_online/get_hash_staff/' + id_set).done(function(response) {
               response = JSON.parse(response);
               if(doc_type == "excel")
@@ -196,8 +196,8 @@
             var pathnames = window.location.pathname.split('/');
             var admin_index = pathnames.findIndex(checkAdmin);
             var pathname = pathnames[admin_index+1];
-            alert("share is related");
-            alert(pathname);
+            //alert"share is related");
+            //alertpathname);
             switch (pathname){
               case "invoices" :
               pathname = "invoice";
@@ -222,12 +222,12 @@
               case "projects" :
               pathname = "project";
               var related_id = $('input[name="project_id"]').val();
-              alert("Projects");
+              //alert"Projects");
               break;
             }
             requestGet(admin_url + 'spreadsheet_online/get_hash_related/' + related_id + '/' + pathname + '/' + id_set).done(function(response) {
-              alert(related_id);
-              alert(id_set);
+              //alertrelated_id);
+              //alertid_set);
               response = JSON.parse(response);
               if(doc_type == "excel")
               {
@@ -254,7 +254,7 @@
       //window.location.replace(admin_url + 'spreadsheet_online/new_file_view/'+parent_id);
       //My Code
       var parent_id = $("input[name='parent_id']").val() == "" ? 0 : $("input[name='parent_id']").val();
-      alert("change file type");
+      //alert"change file type");
       $('#PickFileTypeModal input[name="parent_id"]').val(parent_id);
       //alert("pick file type");
       $('#PickFileTypeModal').modal('show');
@@ -272,7 +272,7 @@
       }
       else if (selectedValue == "word")
       {
-        alert("word");
+        //alert"word");
         window.location.replace(admin_url + 'spreadsheet_online/new_word_file_view/'+parent_id);
       }
       })         

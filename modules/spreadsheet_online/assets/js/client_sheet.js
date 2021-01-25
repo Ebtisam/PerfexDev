@@ -151,7 +151,7 @@
           window.location.replace(admin_url + 'spreadsheet_online/new_word_file_view/'+parent_id+'/'+id_set);
         }
         else{
-          alert("share");
+          //alert"share");
           $.get(site_url + 'spreadsheet_online/spreadsheet_online_client/get_hash_client/' + id_set).done(function(response) {
             response = JSON.parse(response);
             if(doc_type == "excel")
@@ -161,7 +161,7 @@
             }
             else if(doc_type == "word")
             {
-              alert("word");
+              //alert"word");
               window.location.replace(site_url + 'spreadsheet_online/spreadsheet_online_client/file_word_view_share/'+response.hash);
 
             }

@@ -124,14 +124,17 @@ class Spreadsheet_online_client extends ClientsController
     }
 
     public function file_word_view_share($hash = ""){
+      log_message("error","client_file_word_view_share");
       $data_form = $this->input->post();
-      //$data_form['data_form'] = $this->input->post('data_form',false);
 
       $data['tree_save'] = json_encode($this->spreadsheet_online_model->get_folder_tree());
       
       if($hash != ""){
+        log_message("error",$hash);
         $share_child = $this->spreadsheet_online_model->get_share_form_hash($hash);
         $id = $share_child->id_share;
+        log_message("error","id share");
+        log_message("error",$id);
         $file_excel = $this->spreadsheet_online_model->get_file_sheet($id);
         $data['parent_id'] = $file_excel->parent_id;
         $data['role'] = $share_child->role;
@@ -175,14 +178,8 @@ class Spreadsheet_online_client extends ClientsController
         }else{
           $data['id'] = $id;
           $data['file_excel'] = $this->spreadsheet_online_model->get_file_sheet($data['id']);
-          $mystring = $data['file_excel']->data_form;
-          $findme   = 'images';
-          $pos = strpos($mystring, $findme);
-          if($pos){
-            $data['data_form'] = str_replace('""', '"', $data['file_excel']->data_form); 
-          }else{
-            $data['data_form'] = $data['file_excel']->data_form; 
-          }
+          $data['data_form'] = $data['file_excel']->data_form; 
+          
         }
 
         if($data_form && $data_form['id'] != ""){

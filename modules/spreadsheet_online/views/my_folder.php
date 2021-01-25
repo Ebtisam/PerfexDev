@@ -169,7 +169,7 @@
 					<th><?php echo _l('name') ?></th>
 					<th><?php echo _l('kind') ?></th>
 					<th><?php echo _l('related_to') ?></th>
-					<th><?php echo "Type" ?></th>
+					<th><?php echo _l('type') ?></th>
 				</tr>
 			</thead>
 			<?php echo html_entity_decode($folder_my_tree); ?>
@@ -308,7 +308,7 @@
 					<div class="col-md-12 col-sm-12">
 					<input type="hidden" name="parent_id"/>
 					<div class="form-group">
-							<label for="placement" class="control-label clearfix"><?php echo _l('settings_sales_currency_placement'); ?></label>
+							<label for="placement" class="control-label clearfix">Choose File Type</label>
 							<div class="radio radio-primary radio-inline">
 								<input type="radio" name="doctype" value="word" id="word" checked>
 								<label for="word" >Word</label>

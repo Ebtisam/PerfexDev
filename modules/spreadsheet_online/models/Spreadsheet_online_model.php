@@ -691,6 +691,7 @@ class Spreadsheet_online_model extends App_Model
 	 */
 	public function tree_my_folder_share()
 	{
+		log_message("error","tree_my_folder_share");
 		$staffid = get_staff_user_id();
 		$data = $this->get_my_folder_by_staff_share_folder($staffid);
 		log_message("error",$staffid);
@@ -955,7 +956,9 @@ class Spreadsheet_online_model extends App_Model
 	}
 
 	public function get_folder_tree(){
+		log_message("error","get_folder_tree");
 		$department = $this->get_folder_type_tree();
+		log_message("error","dep");
         $dep_tree = array();
         foreach ($department as $key => $dep) {
             $node = array();

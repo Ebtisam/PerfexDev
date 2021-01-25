@@ -39,7 +39,7 @@
                         editor.on('init', function (e) {
                               if (typeof data !== 'undefined')
                                 {
-                                  alert(data);
+                                  //alertdata);
                                   editor.setContent(data);
                                 }
                          })},

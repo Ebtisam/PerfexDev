@@ -1,8 +1,8 @@
 $("#tinymce_info_detail_export").on('click', function (e) {
-    alert("tiny");
+    //alert("tiny");
     var myContent = tinymce.get("mytextarea").getContent();
     var doc_name = $("#word_info_detail_input").val();
-    alert(doc_name);
+    //alert(doc_name);
     ExportToDoc(myContent,doc_name);
 });
 
@@ -11,7 +11,7 @@ function ExportToDoc(myContent , doc_name){
     var HtmlHead = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Export HTML To Doc</title></head><body>";
     var EndHtml = "</body></html>";
     
-    alert(doc_name);
+    //alert(doc_name);
     //complete html
     var html = HtmlHead +myContent+EndHtml;
 
@@ -54,40 +54,41 @@ $("form#word-file-form").on('submit', function (e) {
         e.preventDefault();
 
         var rawData = tinymce.get("mytextarea").getContent();
-        alert("submit");
+        //alert("submit");
         var finalData = JSON.stringify(rawData);
-        alert(finalData);
+        //alert(finalData);
         var formData = new FormData(this);
         var name = $("#word_info_detail_input").val();
-        alert(name);
+        //alert(name);
         var id = $("input[name='id']").val();
         formData.append('data_form', finalData);
         formData.append('name', name);
         formData.append('id', id);
-        alert("the lost index");
-        alert(formData.get("id"));
+        //alert("the lost index");
+        //alert(formData.get("id"));
         formData.append('image_flag', "false");
         formData.delete("mytextarea");
-        alert(formData);
-        alert($(this).attr("action"));
+        //alert(formData);
+        //alert($(this).attr("action"));
         url = $(this).attr("action");
         if(url.indexOf("file_word_view_share") > -1)
         {
-          new_url = url.slice(0, -1);
+          new_url = url.substring(0, url.lastIndexOf("/") + 1)
+          //new_url = url.slice(0, -2);
         }
         else
         {
           new_url= url;
         }
         
-        alert(new_url);
+        //alert(new_url);
         $.ajax({
                     url:new_url ,
                     type: 'POST',
                     data: formData,
                     contentType: false,
                     success: function (response, status, xhr) {
-                        alert(response);
+                        //alert(response);
                         response = JSON.parse(response);
                         if(response.success == true) {
                         alert_float('success', response.message);
@@ -109,26 +110,26 @@ $("form#word-file-form").on('submit', function (e) {
 $('.word_info_detail_save_as').on('click', function(){
     $('#SaveAsModal').modal('show');
       var old = $("input[name='parent_id']").val();
-      alert(old)
+      //alertold)
     $('#SaveAsModal [type="submit"]').on('click', function(){
       if(old != $("input[name='parent_id']").val()){
         $("input[name='id']").val('');
       }
         var url_form = $("form#word-file-form").attr('action');
         var rawData = tinymce.get("mytextarea").getContent();
-          alert("submit save as");
+          //alert"submit save as");
           var finalData = JSON.stringify(rawData);
-          alert(finalData);
+          //alertfinalData);
           var formData = new FormData(this);
           var name = $("#word_info_detail_input").val();
-          alert(name);
+          //alertname);
           var id = $("input[name='id']").val();
           formData.append('data_form', finalData);
           formData.append('name', name);
-          alert("the lost index");
+          //alert"the lost index");
           formData.append('id', id);
-          alert(formData["id"]);
-          alert(id);
+          //alertformData["id"]);
+          //alertid);
           formData.append('image_flag', "false");
           formData.delete("mytextarea");
         if(typeof  $('input[name="csrf_token_name"]').val() !== 'undefined'){

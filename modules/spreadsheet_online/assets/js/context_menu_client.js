@@ -276,7 +276,7 @@ function getPosition(e) {
               window.location.replace(admin_url + 'spreadsheet_online/new_word_file_view/'+parent_id+'/'+id_set);
             }
             else{
-              alert("is share");
+              //alert"is share");
                                 //The issue is from the original Module!! it is use admin_url...I modified it
 
               $.get(site_url + 'spreadsheet_online/spreadsheet_online_client/get_hash_client/' + id_set).done(function(response) {
@@ -479,16 +479,16 @@ $('.add_folder_button').click();
 break;
 default:
 if(type == 'file'){
-  alert("default");
+  //alert"default");
   if(share == false){
-    alert("share is false");
+    //alert"share is false");
     if(doc_type == "word")
     {
       window.location.replace(admin_url + 'spreadsheet_online/new_word_file_view/'+parent_id+'/'+id_set);
     }
     else if(doc_type == "excel")
     {
-      alert("excel");
+      //alert"excel");
       window.location.replace(admin_url + 'spreadsheet_online/new_file_view/'+parent_id+'/'+id_set);
 
     }
