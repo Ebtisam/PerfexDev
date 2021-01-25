@@ -386,7 +386,13 @@ class Spreadsheet_online extends AdminController
       }
 
       $data_form = $this->input->post();
-      $data_form['data_form'] = $this->input->post('data_form',false);
+      if ($this->input->server('REQUEST_METHOD') === 'POST')
+      {
+        log_message("error","Post request");
+        $data_form['data_form'] = $this->input->post('data_form',false);
+
+      }
+
 
       log_message("error","is set?" );
       if(isset($data_form['id']))

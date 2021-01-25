@@ -525,3 +525,30 @@ ERROR - 2021-01-23 15:56:55 --> Could not find the language line "add_new_action
 ERROR - 2021-01-23 15:56:55 --> Could not find the language line "update_action"
 ERROR - 2021-01-23 15:57:32 --> inside contflasler
 ERROR - 2021-01-23 15:57:32 --> mstring
+ERROR - 2021-01-23 16:02:51 --> inside contflasler
+ERROR - 2021-01-23 16:02:56 --> Could not find the language line "add_new_action"
+ERROR - 2021-01-23 16:02:56 --> Could not find the language line "update_action"
+ERROR - 2021-01-23 16:03:12 --> Could not find the language line "type"
+ERROR - 2021-01-23 16:04:30 --> Could not find the language line "add_new_action"
+ERROR - 2021-01-23 16:04:30 --> Could not find the language line "update_action"
+ERROR - 2021-01-23 16:04:36 --> inside contflasler
+ERROR - 2021-01-23 16:04:36 --> mstring
+ERROR - 2021-01-23 16:06:23 --> inside contflasler
+ERROR - 2021-01-23 16:06:27 --> Could not find the language line "add_new_action"
+ERROR - 2021-01-23 16:06:27 --> Could not find the language line "update_action"
+ERROR - 2021-01-23 16:06:45 --> Could not find the language line "type"
+ERROR - 2021-01-23 16:06:53 --> Severity: Notice --> Undefined index: id C:\xampp\htdocs\perfex\modules\spreadsheet_online\controllers\Spreadsheet_online_client.php 152
+ERROR - 2021-01-23 16:06:53 --> Severity: Notice --> Undefined index: parent_id C:\xampp\htdocs\perfex\modules\spreadsheet_online\models\Spreadsheet_online_model.php 189
+ERROR - 2021-01-23 16:06:53 --> Severity: Notice --> Trying to get property 'staffs_share' of non-object C:\xampp\htdocs\perfex\modules\spreadsheet_online\models\Spreadsheet_online_model.php 205
+ERROR - 2021-01-23 16:06:53 --> Severity: Notice --> Trying to get property 'clients_share' of non-object C:\xampp\htdocs\perfex\modules\spreadsheet_online\models\Spreadsheet_online_model.php 217
+ERROR - 2021-01-23 16:06:53 --> Severity: Notice --> Undefined index: id C:\xampp\htdocs\perfex\modules\spreadsheet_online\controllers\Spreadsheet_online_client.php 183
+ERROR - 2021-01-23 16:07:47 --> Could not find the language line "type"
+ERROR - 2021-01-23 16:07:52 --> Severity: Notice --> Undefined index: id C:\xampp\htdocs\perfex\modules\spreadsheet_online\controllers\Spreadsheet_online_client.php 152
+ERROR - 2021-01-23 16:07:52 --> Severity: Notice --> Undefined index: parent_id C:\xampp\htdocs\perfex\modules\spreadsheet_online\models\Spreadsheet_online_model.php 189
+ERROR - 2021-01-23 16:07:53 --> Severity: Notice --> Trying to get property 'staffs_share' of non-object C:\xampp\htdocs\perfex\modules\spreadsheet_online\models\Spreadsheet_online_model.php 205
+ERROR - 2021-01-23 16:07:53 --> Severity: Notice --> Trying to get property 'clients_share' of non-object C:\xampp\htdocs\perfex\modules\spreadsheet_online\models\Spreadsheet_online_model.php 217
+ERROR - 2021-01-23 16:07:53 --> Severity: Notice --> Undefined index: id C:\xampp\htdocs\perfex\modules\spreadsheet_online\controllers\Spreadsheet_online_client.php 183
+ERROR - 2021-01-23 16:09:42 --> Could not find the language line "add_new_action"
+ERROR - 2021-01-23 16:09:42 --> Could not find the language line "update_action"
+ERROR - 2021-01-23 16:09:48 --> inside contflasler
+ERROR - 2021-01-23 16:09:48 --> mstring

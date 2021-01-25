@@ -125,7 +125,7 @@ class Spreadsheet_online_client extends ClientsController
 
     public function file_word_view_share($hash = ""){
       $data_form = $this->input->post();
-      $data_form['data_form'] = $this->input->post('data_form',false);
+      //$data_form['data_form'] = $this->input->post('data_form',false);
 
       $data['tree_save'] = json_encode($this->spreadsheet_online_model->get_folder_tree());
       
@@ -145,6 +145,12 @@ class Spreadsheet_online_client extends ClientsController
       }
 
       $data_form = $this->input->post();
+      if ($this->input->server('REQUEST_METHOD') === 'POST')
+      {
+        log_message("error","Post request");
+        $data_form['data_form'] = $this->input->post('data_form',false);
+
+      }
       $data['title'] = _l('new_file');
       $data['folder'] = $this->spreadsheet_online_model->get_my_folder_all();
       if($data_form || isset($data_form['id'])){
