@@ -68,6 +68,7 @@ $("form#word-file-form").on('submit', function (e) {
         //alert(formData.get("id"));
         formData.append('image_flag', "false");
         formData.delete("mytextarea");
+        formData.append('doc_type', "word");
         //alert(formData);
         //alert($(this).attr("action"));
         url = $(this).attr("action");
@@ -116,16 +117,29 @@ $('.word_info_detail_save_as').on('click', function(){
         $("input[name='id']").val('');
       }
         var url_form = $("form#word-file-form").attr('action');
+        if(url_form.indexOf("file_word_view_share") > -1)
+        {
+          new_url = url_form.substring(0, url_form.lastIndexOf("/") + 1)
+          //new_url = url.slice(0, -2);
+        }
+        else
+        {
+          new_url= url_form;
+        }
+        
         var rawData = tinymce.get("mytextarea").getContent();
           //alert"submit save as");
           var finalData = JSON.stringify(rawData);
           //alertfinalData);
-          var formData = new FormData(this);
+          var formData = new FormData();
           var name = $("#word_info_detail_input").val();
           //alertname);
           var id = $("input[name='id']").val();
           formData.append('data_form', finalData);
           formData.append('name', name);
+          formData.append('doc_type', "word");
+          formData.append('parent_id', $('input[name="parent_id"]').val());
+
           //alert"the lost index");
           formData.append('id', id);
           //alertformData["id"]);
@@ -137,11 +151,13 @@ $('.word_info_detail_save_as').on('click', function(){
         }
 
         $.ajax({
-          url: url_form,
+          url: new_url,
           type: 'POST',
           data: formData,
           success: function (response, status, xhr) {
+            //alert(response);
             response = JSON.parse(response);
+            
             if(response.success == true) {
               alert_float('success', response.message);
               var disposition = xhr.getResponseHeader('content-disposition');

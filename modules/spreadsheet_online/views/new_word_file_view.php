@@ -24,7 +24,7 @@
                     
                     <a href="<?php echo admin_url('spreadsheet_online/manage'); ?>" id="luckysheet_info_detail_close" class="btn btn-danger luckysheet_info_detail_close"> <i class="fa fa-window-close" aria-hidden="true"></i> Close </a>
                     <button type="submit" id="word_info_detail_save" class="BTNSS btn btn-info word_info_detail_save"><i class="fa fa-save"></i> Save</button>
-                    <!--<a id="word_info_detail_save_as" class="btn btn-info word_info_detail_save_as"> <i class="fa fa-save"></i> Save As </a>-->
+                    <a id="word_info_detail_save_as" class="btn btn-info word_info_detail_save_as"> <i class="fa fa-save"></i> Save As </a>
                     <a id="tinymce_info_detail_export" class="btn btn-info" > <i class="fa fa-download" aria-hidden="true"></i> Download </a>                    <!--<input class="" id="word_info_detail_input" />-->
                     <div style="margin: 15px;"></div>
                     <div style="margin: 15px;" id="mytextarea" name="tinymce_div"></div>
@@ -66,28 +66,6 @@
 	</div>
 </div>
 
-
-
-<div class="modal fade" id="SaveAsModal" role="dialog">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<h4 class="modal-title add-new"><?php echo _l('save_as') ?></h4>
-			</div>
-			
-			<div class="modal-body">
-				<label for="folder" class="control-label"><?php echo _l('leads_email_integration_folder') ?></label>
-				<input type="text" id="folder" name="folder" class="selectpicker" placeholder="<?php echo _l('leads_email_integration_folder'); ?>" autocomplete="off">
-			
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
-				<button type="submit" class="btn btn-info"><?php echo _l('submit'); ?></button>
-			</div>
-		</div>
-	</div>
-</div>
 <?php init_tail(); ?>
 <?php require 'modules/spreadsheet_online/assets/js/new_word_file_js.php'; ?>
 

@@ -14,6 +14,7 @@
                     <input data-tips="Doc rename" id="word_info_detail_input" class="luckysheet_info_detail_input luckysheet-mousedown-cancel luckysheet" value="Untitled document" tabindex="0" dir="ltr" aria-label="Rename" style="visibility: visible; width: 220px;" data-tooltip="Rename">
                     <a href="<?php echo admin_url('spreadsheet_online/manage'); ?>" id="luckysheet_info_detail_close" class="btn btn-danger luckysheet_info_detail_close"> <i class="fa fa-window-close" aria-hidden="true"></i> Close </a>
                     <button type="submit" id="word_info_detail_save" class="BTNSS btn btn-info word_info_detail_save"><i class="fa fa-save"></i> Save</button>
+                    <a id="word_info_detail_save_as" class="btn btn-info word_info_detail_save_as"> <i class="fa fa-save"></i> Save As </a>
                     <a id="tinymce_info_detail_export" class="btn btn-info" > <i class="fa fa-download" aria-hidden="true"></i> Download </a>                    <!--<input class="" id="word_info_detail_input" />-->
 
                     <div style="margin: 15px;"></div>

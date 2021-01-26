@@ -940,7 +940,10 @@ class Spreadsheet_online_model extends App_Model
 		$this->db->where('type', 'folder');
 		$this->db->where('parent_id', '0');
 		$this->db->where('staffid', get_staff_user_id());
-		return $this->db->get(db_prefix().'spreadsheet_online_my_folder')->result_array();
+		//exit(var_dump(get_staff_user_id()));
+		$data = $this->db->get(db_prefix().'spreadsheet_online_my_folder')->result_array();
+		//exit(var_dump($data));
+		return $data;
 	}
 
 	/**
@@ -958,6 +961,7 @@ class Spreadsheet_online_model extends App_Model
 	public function get_folder_tree(){
 		log_message("error","get_folder_tree");
 		$department = $this->get_folder_type_tree();
+
 		log_message("error","dep");
         $dep_tree = array();
         foreach ($department as $key => $dep) {

@@ -1,13 +1,18 @@
 <script type="text/javascript">
   (function(){
     "use strict";
-    if((<?php echo $tree_save ?>).length > 0){
+    
+
+    if((<?php echo $tree_save ?>).length >= 0){
+      //alert("combo tree");
+      //alert($tree_save);
       var tree = $('input[name="folder"]').comboTree({
         source : <?php echo $tree_save ?>
       });   
     }
 
     $('input[name="folder"]').on('change', function(){
+      //alert("changed folder");
       var id = tree.getSelectedItemsId();
       $("input[name='parent_id']").val(id.replace( /^\D+/g, ''));
     })
@@ -50,10 +55,10 @@
     var role = $("input[name='role']").val();
 
     if(type_screen == 3){
-      $('.luckysheet_info_detail_save_as').remove();
+      $('.word_info_detail_save_as').remove();
     }
     if(role == 1){
-      $('.luckysheet_info_detail_save_as').remove();
+      $('.word_info_detail_save_as').remove();
       $('.luckysheet_info_detail_save').remove();
       $('.word_info_detail_save').remove();
     }
