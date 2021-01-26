@@ -296,7 +296,11 @@ class Spreadsheet_online extends AdminController
       }
 
       $data_form = $this->input->post();
-      $data_form['doc_type'] = "excel";
+      if ($this->input->server('REQUEST_METHOD') === 'POST')
+      {
+        $data_form['doc_type'] = "excel";
+      }
+      
       $data['title'] = _l('new_file');
       $data['folder'] = $this->spreadsheet_online_model->get_my_folder_all();
       if($data_form || isset($data_form['id'])){
@@ -351,13 +355,17 @@ class Spreadsheet_online extends AdminController
     public function file_word_view_share($hash = ""){
       log_message("error","file_word_view_share");
       $data_form = $this->input->post();
+      //exit(var_dump($data_form));
       $data['tree_save'] = json_encode($this->spreadsheet_online_model->get_folder_tree());
       if($hash != ""){
+        log_message("error",strval($hash));
         $share_child = $this->spreadsheet_online_model->get_share_form_hash($hash);
         $id = $share_child->id_share;
+        log_message("error",strval($id));
         $file_excel = $this->spreadsheet_online_model->get_file_sheet($id);
         $data['parent_id'] = $file_excel->parent_id;
         $data['role'] = $share_child->role;
+        log_message("error",strval($data['parent_id']));
         if (($share_child->rel_id != get_staff_user_id())) {
               access_denied('spreadsheet_online');
         }
@@ -366,18 +374,24 @@ class Spreadsheet_online extends AdminController
         $data['parent_id'] = "";
         $data['role'] = 1;
       }
-
+      log_message("error","befor post");
       $data_form = $this->input->post();
-      $data_form['doc_type'] = "word";
+      log_message("error","after post");
+     
+      log_message("error","after word");
       if ($this->input->server('REQUEST_METHOD') === 'POST')
       {
+        $data_form['doc_type'] = "word";
+        log_message("error","in post");
         $data_form['data_form'] = $this->input->post('data_form',false);
 
       }
-
+      log_message("error","after in post");
       $data['title'] = _l('new_file');
       $data['folder'] = $this->spreadsheet_online_model->get_my_folder_all();
+      //exit(var_dump($data['folder']));
       if($data_form || isset($data_form['id'])){
+        log_message("error","first IF");
         if($data_form['id'] == ""){
           $success = $this->spreadsheet_online_model->add_file_sheet($data_form);
           if(is_numeric($success)){
@@ -392,6 +406,7 @@ class Spreadsheet_online extends AdminController
         }
       }
       if($id != "" || isset($data_form['id'])){
+        log_message("error","second IF");
         if(isset($data_form['id'])){
           if($data_form['id'] != ""){
             $data['id'] = $data_form['id'];
@@ -629,7 +644,10 @@ class Spreadsheet_online extends AdminController
      */
     public function file_view_share_related($hash = ""){
       $data_form = $this->input->post();
-      $data_form['doc_type'] = "excel";
+      if ($this->input->server('REQUEST_METHOD') === 'POST')
+      {
+        $data_form['doc_type'] = "excel";
+      }
       $data['tree_save'] = json_encode($this->spreadsheet_online_model->get_folder_tree());
 
       if($hash != ""){
@@ -698,10 +716,12 @@ class Spreadsheet_online extends AdminController
 
     public function file_word_view_share_related($hash = ""){
       $data_form = $this->input->post();
-      $data_form['doc_type'] = "word";
       $data_form['data_form'] = $this->input->post('data_form',false);
       $data['tree_save'] = json_encode($this->spreadsheet_online_model->get_folder_tree());
-      $data_form['doc_type'] = "word";
+      if ($this->input->server('REQUEST_METHOD') === 'POST')
+      {
+        $data_form['doc_type'] = "word";
+      }
       if($hash != ""){
         $share_child = $this->spreadsheet_online_model->get_share_form_hash_related($hash);
         $id = $share_child->parent_id;

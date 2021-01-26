@@ -70,7 +70,10 @@ class Spreadsheet_online_client extends ClientsController
       }
 
       $data_form = $this->input->post();
-      $data_form['doc_type'] = "excel";
+      if ($this->input->server('REQUEST_METHOD') === 'POST')
+      {
+        $data_form['doc_type'] = "excel";
+      }
       $data['title'] = _l('new_file');
       $data['folder'] = $this->spreadsheet_online_model->get_my_folder_all();
       if($data_form || isset($data_form['id'])){
@@ -149,10 +152,10 @@ class Spreadsheet_online_client extends ClientsController
       }
 
       $data_form = $this->input->post();
-      $data_form['doc_type'] = "word";
       if ($this->input->server('REQUEST_METHOD') === 'POST')
       {
         log_message("error","Post request");
+        $data_form['doc_type'] = "word";
         $data_form['data_form'] = $this->input->post('data_form',false);
 
       }
