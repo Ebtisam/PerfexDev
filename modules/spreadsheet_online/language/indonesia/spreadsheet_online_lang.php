@@ -32,3 +32,9 @@ $lang['related_detail']                                                         
 $lang['create_folder']                                                         			 = 'Membuat folder';
 $lang['create_file']                                                         			 = 'Buat File';
 $lang['save_as']                                                         			 = 'Simpan Sebagai';
+$lang['notifications'] = 'Notifikasi web';
+$lang['email_templates'] = 'Notifikasi email';
+$lang['setting_notification'] = 'Setting Notifikasi';
+$lang['share'] = 'Bagikan';
+$lang['for_you'] = 'untuk Anda';
+$lang['ss_guide_email_template'] = 'Untuk mengkonfigurasi template email, silakan ke Pengaturan -> Template Email -> Spreadsheet online';

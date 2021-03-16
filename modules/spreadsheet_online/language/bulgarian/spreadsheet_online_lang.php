@@ -32,3 +32,9 @@ $lang['related_detail']                                                         
 $lang['create_folder']                                                         			 = 'Създай папка';
 $lang['create_file']                                                         			 = 'Създаване на файл';
 $lang['save_as']                                                         			 = 'Запази като';
+$lang['notifications'] = 'Уеб известия';
+$lang['email_templates'] = 'Известия по имейл';
+$lang['setting_notification'] = 'Настройки за известяване';
+$lang['share'] = 'Споделяне';
+$lang['for_you'] = 'за вас';
+$lang['ss_guide_email_template'] = 'За да конфигурирате имейл шаблони, моля, отидете на Настройка -> Имейл шаблони -> Електронна електронна таблица';

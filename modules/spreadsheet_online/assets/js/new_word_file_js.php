@@ -17,8 +17,8 @@
       $("input[name='parent_id']").val(id.replace( /^\D+/g, ''));
     })
     if((<?php echo isset($data_form) ? "true" : "false"?>)){
-      var data = <?php echo isset($data_form) ? ($data_form != "" ? $data_form : '""') : '""' ?>;
-      var title = "<?php echo isset($file_excel) ? $file_excel->name : "Untitled" ?>";
+      var data = <?php echo isset($data_form) ? ($data_form != "" ? $data_form : '""') : '""' ?>;    
+      var title = "<?php echo isset($name) ? $name : "" ?>"
       $("#word_info_detail_input").val(title);
     }
 

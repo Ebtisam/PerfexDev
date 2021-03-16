@@ -32,3 +32,9 @@ $lang['related_detail']                                                         
 $lang['create_folder']                                                         			 = 'Skapa mapp';
 $lang['create_file']                                                         			 = 'Skapa fil';
 $lang['save_as']                                                         			 = 'Spara som';
+$lang['notifications'] = 'Webbaviseringar';
+$lang['email_templates'] = 'E-postaviseringar';
+$lang['setting_notification'] = 'Meddelandeinställningar';
+$lang['share'] = 'Dela';
+$lang['for_you'] = 'för dig';
+$lang['ss_guide_email_template'] = 'För att konfigurera e-postmallar, gå till Inställningar -> E-postmallar -> Kalkylark online';

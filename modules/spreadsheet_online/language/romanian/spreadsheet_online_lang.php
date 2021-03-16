@@ -32,3 +32,9 @@ $lang['related_detail']                                                         
 $lang['create_folder']                                                         			 = 'Creeaza dosar';
 $lang['create_file']                                                         			 = 'Creați fișier';
 $lang['save_as']                                                         			 = 'Salvează ca';
+$lang['notifications'] = 'Notificări web';
+$lang['email_templates'] = 'Notificări prin e-mail';
+$lang['setting_notification'] = 'Setări notificări';
+$lang['share'] = 'Distribuiți';
+$lang['for_you'] = 'pentru tine';
+$lang['ss_guide_email_template'] = 'Pentru a configura șabloanele de e-mail, accesați Configurare -> Șabloane de e-mail -> Foaie de calcul online';

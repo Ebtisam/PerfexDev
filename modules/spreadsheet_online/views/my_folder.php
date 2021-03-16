@@ -328,14 +328,14 @@
 	</div>
 </div>
 <!-- End My Code -->
-
 <div class="modal fade" id="ShareModal" role="dialog">
 	<?php echo form_hidden('value-hidden'); ?>
 
 	<?php echo form_open_multipart(admin_url('spreadsheet_online/update_share_spreadsheet_online'),array('id'=>'share-form')) ?>
 	<?php echo form_hidden('id'); ?>
 	<?php echo form_hidden('update', "false"); ?>
-
+	<?php echo form_hidden('parent_id');  ?>
+	
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -380,7 +380,7 @@
 										</div>
 										<div class="col-md-4">
 											<?php $permission = [['id' => 1, 'name' => _l('view')], ['id' => 2, 'name' => _l('edit')] ] ?>
-											<?php echo render_select('role_staff[0]',$permission,array('id','name'),'permission',1); ?>
+											<?php echo render_select('role_staff[0]',$permission,array('id','name'),'permission',1, [], [], '', '', false); ?>
 										</div>
 									</div>
 
@@ -409,7 +409,7 @@
 											</div>
 											<div class="col-md-4">
 												<?php $permission = [['id' => 1, 'name' => _l('view')], ['id' => 2, 'name' => _l('edit')] ] ?>
-												<?php echo render_select('role_staff[$key]',$permission,array('id','name'),'permission', $review_result['exam_result'] != '' ? $review_result['exam_result'] : '' ); ?>
+												<?php echo render_select('role_staff[$key]',$permission,array('id','name'),'permission', $review_result['exam_result'] != '' ? $review_result['exam_result'] : '', [], [], '', '', false); ?>
 											</div>
 										</div>
 
@@ -443,7 +443,7 @@
 												</div>
 
 												<div class="col-md-4">
-													<?php echo render_select('role_client[0]',$permission,array('id','name'),'permission',1); ?>
+													<?php echo render_select('role_client[0]',$permission,array('id','name'),'permission',1, array(),array(),'','','',false); ?>
 												</div>
 
 											</div>
@@ -473,7 +473,7 @@
 													</div>
 
 													<div class="col-md-4">
-														<?php echo render_select('role_client[$key]',$permission,array('id','name'),'permission',$review_result['exam_result'] != '' ? $review_result['exam_result'] : ''); ?>
+														<?php echo render_select('role_client[$key]',$permission,array('id','name'),'permission',$review_result['exam_result'] != '' ? $review_result['exam_result'] : '',array(),array(),'','','',false); ?>
 													</div>
 												</div>
 

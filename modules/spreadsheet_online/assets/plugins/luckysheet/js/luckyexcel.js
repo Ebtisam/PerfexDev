@@ -11269,7 +11269,8 @@
         var n, i, a, o, s = e("./ToLuckySheet/LuckyFile"), l = e("./HandleZip");
         n = document.getElementById("Luckyexcel-demo-file"),
         o = document.getElementById("lucky-mask-demo"),
-        n && (window.onload = function() {
+        n && ($( document ).ready(function() {
+            window.onload = function() {
             n.addEventListener("change", function(e) {
                 var t, r = e.target.files;
                 null != r && 0 != r.length ? "xlsx" == (t = r[0].name.split("."))[t.length - 1] ? u.transformExcelToLucky(r[0], function(e, t) {
@@ -11284,7 +11285,7 @@
                     })) : alert("Failed to read the content of the excel file, currently does not support xls files!")
                 }) : alert("Currently only supports the import of xlsx files") : alert("No files wait for import")
             })
-        });
+        }}));
         var u = (f.transformExcelToLucky = function(n, i) {
             new l.HandleZip(n).unzipFile(function(e) {
                 var t = new s.LuckyFile(e,n.name).Parse()

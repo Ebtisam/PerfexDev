@@ -32,3 +32,9 @@ $lang['related_detail']                                                         
 $lang['create_folder']                                                         			 = 'フォルダーを作る';
 $lang['create_file']                                                         			 = 'ファイルの作成';
 $lang['save_as']                                                         			 = '名前を付けて保存';
+$lang['notifications'] = 'Web通知';
+$lang['email_templates'] = 'Eメール通知';
+$lang['setting_notification'] = '通知設定';
+$lang['share'] = '共有';
+$lang['for_you'] = 'あなたのために';
+$lang['ss_guide_email_template'] = 'メールテンプレートを設定するには、[設定]-> [メールテンプレート]-> [スプレッドシートオンライン]に移動してください。';

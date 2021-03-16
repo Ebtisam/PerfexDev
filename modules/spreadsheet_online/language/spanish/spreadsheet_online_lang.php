@@ -32,3 +32,9 @@ $lang['related_detail']                                                         
 $lang['create_folder']                                                         			 = 'Crear carpeta';
 $lang['create_file']                                                         			 = 'Crea un archivo';
 $lang['save_as']                                                         			 = 'Guardar como';
+$lang['notifications'] = 'Notificaciones web';
+$lang['email_templates'] = 'Notificaciones por correo electrónico';
+$lang['setting_notification'] = 'Configuración de notificaciones';
+$lang['compartir'] = 'Compartir';
+$lang['for_you'] = 'para ti';
+$lang['ss_guide_email_template'] = 'Para configurar las plantillas de correo electrónico, vaya a Configuración -> Plantillas de correo electrónico -> Hoja de cálculo en línea';

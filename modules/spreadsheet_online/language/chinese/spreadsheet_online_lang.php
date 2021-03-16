@@ -32,3 +32,9 @@ $lang['related_detail']                                                         
 $lang['create_folder']                                                         			 = '创建文件夹';
 $lang['create_file']                                                         			 = '建立档案';
 $lang['save_as']                                                         			 = '另存为';
+$lang['notifications'] ='网络通知';
+$lang['email_templates'] ='电子邮件通知';
+$lang['setting_notification'] ='通知设置';
+$lang['share'] ='Share';
+$lang['for_you'] ='为您';
+$lang['ss_guide_email_template'] ='要配置电子邮件模板，请转到设置->电子邮件模板->在线电子表格';

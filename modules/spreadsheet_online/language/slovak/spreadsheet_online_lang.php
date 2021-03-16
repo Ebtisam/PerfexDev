@@ -32,3 +32,9 @@ $lang['related_detail']                                                         
 $lang['create_folder']                                                         			 = 'Vytvoriť priečinok';
 $lang['create_file']                                                         			 = 'Vytvoriť súbor';
 $lang['save_as']                                                         			 = 'Uložiť ako';
+$lang['notifications'] = 'Webové oznámenia';
+$lang['email_templates'] = 'E-mailové upozornenia';
+$lang['setting_notification'] = 'Nastavenia upozornení';
+$lang['share'] = 'Zdieľať';
+$lang['for_you'] = 'pre vás';
+$lang['ss_guide_email_template'] = 'Ak chcete nakonfigurovať e-mailové šablóny, prejdite do časti Nastavenia -> E-mailové šablóny -> Tabuľka online';

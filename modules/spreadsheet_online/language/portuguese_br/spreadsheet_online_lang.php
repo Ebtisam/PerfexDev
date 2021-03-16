@@ -32,3 +32,9 @@ $lang['related_detail']                                                         
 $lang['create_folder']                                                         			 = 'Criar pasta';
 $lang['create_file']                                                         			 = 'Criar arquivo';
 $lang['save_as']                                                         			 = 'Salvar como';
+$lang['notifications'] = 'Notificações da Web';
+$lang['email_templates'] = 'Notificações por email';
+$lang['setting_notification'] = 'Configurações de notificação';
+$lang['share'] = 'Compartilhar';
+$lang['for_you'] = 'para você';
+$lang['ss_guide_email_template'] = 'E-posta şablonlarını yapılandırmak için lütfen Kurulum -> E-posta şablonları -> Elektronik tablo çevrimiçi';

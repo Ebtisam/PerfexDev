@@ -9502,7 +9502,6 @@ function(t, e) {
         .call(this, t, e, n, i, r))
     }
     function kt(t, e) {
-        alert()
         e[qe] = z(1e3 * ("0." + t))
     }
     function St(t) {
@@ -22718,15 +22717,15 @@ function(i, r) {
         this.locale = {
             format: "YYYY/MM/DD",
             separator: " - ",
-            applyLabel: "确定",
-            cancelLabel: "取消",
+            applyLabel: "Determine",
+            cancelLabel: "Cancel",
             weekLabel: "W",
-            customRangeLabel: "自定义",
+            customRangeLabel: "Customize",
             daysOfWeek: X.weekdaysMin(),
             monthNames: X.monthsShort(),
             firstDay: X.localeData().firstDayOfWeek(),
-            daysOfWeek: ["日", "一", "二", "三", "四", "五", "六"],
-            monthNames: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"]
+            daysOfWeek: ["Day", "One", "Two", "Three", "Four", "Five", "Six"],
+            monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October" , "November", "December"]
         },
         this.callback = function() {}
         ,
@@ -22945,7 +22944,7 @@ function(i, r) {
             y += "<tr>",
             (this.showWeekNumbers || this.showISOWeekNumbers) && (y += "<th></th>"),
             v && !v.isBefore(e.firstDay) || this.linkedCalendars && "left" != t ? y += "<th></th>" : y += '<th class="prev available"><i class="icon iconfont icon-danxian-zuojiantou glyphicon"></i></th>';
-            var z, _ = e[1][1].format("YYYY") + "年" + e[1][1].format("MM") + "月";
+            var z, _ = e[1][1].format("YYYY") + "Year" + e[1][1].format("MM") + "Month";
             if (this.showDropdowns) {
                 for (var O = e[1][1].month(), w = e[1][1].year(), L = A && A.year() || w + 5, N = v && v.year() || w - 50, q = w == N, W = w == L, T = '<select class="monthselect">', C = 0; C < 12; C++)
                     (!q || C >= v.month()) && (!W || C <= A.month()) ? T += "<option value='" + C + "'" + (C === O ? " selected='selected'" : "") + ">" + this.locale.monthNames[C] + "</option>" : T += "<option value='" + C + "'" + (C === O ? " selected='selected'" : "") + " disabled='disabled'>" + this.locale.monthNames[C] + "</option>";

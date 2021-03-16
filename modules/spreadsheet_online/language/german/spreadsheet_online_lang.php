@@ -32,3 +32,9 @@ $lang['related_detail']                                                         
 $lang['create_folder']                                                         			 = 'Ordner erstellen';
 $lang['create_file']                                                         			 = 'Erstelle Datei';
 $lang['save_as']                                                         			 = 'Speichern als';
+$lang['notifications'] = 'Webbenachrichtigungen';
+$lang['email_templates'] = 'E-Mail-Benachrichtigungen';
+$lang['settings_notification'] = 'Benachrichtigungseinstellungen';
+$lang['share'] = 'Share';
+$lang['for_you'] = 'für dich';
+$lang['ss_guide_email_template'] = 'Um E-Mail-Vorlagen zu konfigurieren, gehen Sie bitte zu Setup -> E-Mail-Vorlagen -> Online-Tabelle';

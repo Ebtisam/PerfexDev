@@ -32,3 +32,9 @@ $lang['related_detail']                                                         
 $lang['create_folder']                                                         			 = 'Klasör oluşturun';
 $lang['create_file']                                                         			 = 'Dosya oluştur';
 $lang['save_as']                                                         			 = 'Farklı kaydet';
+$lang['notifications'] = 'Web bildirimleri';
+$lang['email_templates'] = 'E-posta bildirimleri';
+$lang['setting_notification'] = 'Bildirim ayarları';
+$lang['paylaş'] = 'Paylaş';
+$lang['for_you'] = 'sizin için';
+$lang['ss_guide_email_template'] = 'E-posta şablonlarını yapılandırmak için lütfen Kurulum -> E-posta şablonları -> Elektronik tablo çevrimiçi';

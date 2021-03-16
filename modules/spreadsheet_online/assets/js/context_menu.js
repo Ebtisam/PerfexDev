@@ -254,6 +254,7 @@ function getPosition(e) {
        		menu.style.top = clickCoordsY-165 + "px";
        	}
        }
+        var rel_id_select = [];
 
        function menuItemListener( link ) {
        	"use strict";
@@ -271,140 +272,162 @@ function getPosition(e) {
         //start
         switch(moveToAlbumSelectedId) {
         	case 'edit':
+
         	if(type == 'file'){
         		$('#AddFolderModal').modal('hide');
 
-        		if(share == false && doc_type == "excel"){
-        			window.location.replace(admin_url + 'spreadsheet_online/new_file_view/'+parent_id+'/'+id_set);
-            }
-            else if(share == false && doc_type == "word")
-            {
-              window.location.replace(admin_url + 'spreadsheet_online/new_word_file_view/'+parent_id+'/'+id_set);
+        		if(share == false){
+             requestGet(admin_url + 'spreadsheet_online/check_file_exits/'+id_set).done(function(response) {
+              response = JSON.parse(response);
+              if(response.success){
+                if (doc_type == "excel")
+                {
+                  window.location.replace(admin_url + 'spreadsheet_online/new_file_view/'+parent_id+'/'+id_set);
+
+                }
+                else if(doc_type == "word")
+                {
+                  window.location.replace(admin_url + 'spreadsheet_online/new_word_file_view/'+parent_id+'/'+id_set);
+
+                }
+              }else{
+                alert_float('warning', response.message);
+              }
+
+            })
+           }else{
+
+             requestGet(admin_url + 'spreadsheet_online/check_file_exits/'+id_set).done(function(response) {
+              response = JSON.parse(response);
+              if(response.success){
+                requestGet(admin_url + 'spreadsheet_online/get_hash_staff/' + id_set).done(function(response1) {
+                  response1 = JSON.parse(response1);
+                  if(doc_type == "excel")
+                  {
+                    window.location.replace(admin_url + 'spreadsheet_online/file_view_share/'+response1.hash);
+                  }
+                  else if(doc_type == "word")
+                  {
+                    window.location.replace(admin_url + 'spreadsheet_online/file_word_view_share/'+response1.hash);
+  
+                  }
+                })
+              }else{
+                alert_float('warning', response.message);
+              }
+            })
+             
+           }
+         }else{
+          $('#AddFolderModal .add-new').addClass('hide');
+          $('#AddFolderModal .update-new').removeClass('hide');
+          $('#AddFolderModal input[name="name"]').val(name);
+          $('#AddFolderModal input[name="id"]').val(id_set);
+          if(share == true){
+           var length_submot_share = $('#AddFolderModal .modal-footer [type="submit"]').length;
+           length_submot_share == 0 ? $('#AddFolderModal .modal-footer').append(`<button type="submit" class="btn btn-info">Submit</button>`)
+           : ($('#AddFolderModal .modal-footer [type="submit"]').remove(), $('#AddFolderModal .modal-footer').append(`<button type="submit" class="btn btn-info">Submit</button>`));
+         }
+         $('#AddFolderModal').modal('show');
+       }
+       break;
+       case 'delete':
+       $.post(admin_url+'spreadsheet_online/delete_folder_file/'+id_set).done(function(response){
+         response = JSON.parse(response);
+         if(response.success == true) {
+          alert_float('success', response.message);
+          window.location.replace(admin_url + 'spreadsheet_online/manage');
+        }
+        else{
+          alert_float('warning', response.message);
+          window.location.replace(admin_url + 'spreadsheet_online/manage');
+        }
+      });
+       break;
+       case 'share':
+       $('.remove_box_information_review').click();
+       $('.remove_box_information_review_client').click();
+       $('#ShareModal input[name="id"]').val(id_set);
+
+       if(id_set != ''){
+         $('#ShareModal [name="update"]').val("true");
+         requestGet(admin_url + 'spreadsheet_online/get_my_folder/'+ id_set).done(function(response) {
+          response = JSON.parse(response);
+          $('.share-row').removeClass('hide');
+          if(response.group_share_client == 2){
+           var hide_old = $('input[name="value-hidden"]').val();
+           hide_old != '' ? $('input[name="value-hidden"]').val(hide_old+ ',' +response.group_share_client) : $('input[name="value-hidden"]').val(response.group_share_client);
+           $('input[name="group_share_client"]').prop( "checked",true);
+           $('.choosee-staff').removeClass('hide');
+           if(response.client_groups_share || response.clients_share){
+            var client_groups_share = response.client_groups_share.split(",");
+            var clients_share = response.clients_share.split(",");
+
+
+            $.each(clients_share, function (index, value) {
+              client_share_value = clients_share[index];      
+              if(index > 0){
+                $('.new_box_information_review_client').click();
+                $('select[name="client_groups_share['+index+']"]').val(client_groups_share[index]).change();
+                $('select[name="clients_share['+index+']"]').val(clients_share[index]).change();
+                onchane_handle_client(index, client_share_value);
+                requestGet(admin_url + 'spreadsheet_online/get_my_folder_get_hash/client/' + value + '/' + id_set).done(function(response_client) {
+                 response_client = JSON.parse(response_client);
+                 $('select[name="role_client['+index+']"]').val(response_client.role ? response_client.role : 1).change();
+               })
+              }
+              else{
+                onchane_handle_client(index, client_share_value);
+                $('select[name="client_groups_share['+index+']"]').val(client_groups_share[index]).change();
+                $('select[name="clients_share['+index+']"]').val(clients_share[index]).change();
+                requestGet(admin_url + 'spreadsheet_online/get_my_folder_get_hash/client/' + value + '/' + id_set).done(function(response_client) {
+                 response_client = JSON.parse(response_client);
+                 $('select[name="role_client['+index+']"]').val(response_client.role ? response_client.role : 1).change();
+               })
+              }
+            });
+          }
+        }else{
+         $('input[name="group_share_client').removeAttr('checked');
+       }
+
+       if(response.group_share_staff == 1){
+         var hide_old = $('input[name="value-hidden"]').val();
+         hide_old != '' ? $('input[name="value-hidden"]').val(hide_old+ ',' +response.group_share_staff) : $('input[name="value-hidden"]').val(response.group_share_staff);
+         $('input[name="group_share_staff"]').prop( "checked",true);
+         $('.choosee-customer').removeClass('hide');
+         if(response.departments_share || response.staffs_share){
+          var departments_share = response.departments_share.split(",");
+          var staffs_share = response.staffs_share.split(",");
+          $.each(staffs_share, function (index, value) {
+            staff_share_value = staffs_share[index];  
+            if(index > 0){
+              $('.new_box_information_review').click();
+              $('select[name="departments_share['+index+']"]').val(departments_share[index]).change();
+              $('select[name="staffs_share['+index+']"]').val(staffs_share[index]).change();
+              onchane_handle_department(index, staff_share_value);
+              requestGet(admin_url + 'spreadsheet_online/get_my_folder_get_hash/staff/' + value + '/' + id_set).done(function(response_staff) {
+               response_staff = JSON.parse(response_staff);
+               if(response_staff){
+                $('select[name="role_staff['+index+']"]').val(response_staff.role ? response_staff.role : 1).change();
+              }
+            })
             }
             else{
-        			requestGet(admin_url + 'spreadsheet_online/get_hash_staff/' + id_set).done(function(response) {
-                response = JSON.parse(response);
-                if(doc_type == "word")
-                {
-                  window.location.replace(admin_url + 'spreadsheet_online/file_view_share/'+response.hash);
-                }
-                else if(doc_type == "excel")
-                {
-                  window.location.replace(admin_url + 'spreadsheet_online/file_word_view_share/'+response.hash);
-
-                }
-        			})
-        		}
-        	}else{
-        		$('#AddFolderModal .add-new').addClass('hide');
-        		$('#AddFolderModal .update-new').removeClass('hide');
-        		$('#AddFolderModal input[name="name"]').val(name);
-        		$('#AddFolderModal input[name="id"]').val(id_set);
-        		if(share == true){
-        			var length_submot_share = $('#AddFolderModal .modal-footer [type="submit"]').length;
-        			length_submot_share == 0 ? $('#AddFolderModal .modal-footer').append(`<button type="submit" class="btn btn-info">Submit</button>`)
-        			: ($('#AddFolderModal .modal-footer [type="submit"]').remove(), $('#AddFolderModal .modal-footer').append(`<button type="submit" class="btn btn-info">Submit</button>`));
-        		}
-        		$('#AddFolderModal').modal('show');
-        	}
-          break;
-          case 'delete':
-          $.post(admin_url+'spreadsheet_online/delete_folder_file/'+id_set).done(function(response){
-          	response = JSON.parse(response);
-          	if(response.success == true) {
-          		alert_float('success', response.message);
-          		window.location.replace(admin_url + 'spreadsheet_online/manage');
-          	}
-          	else{
-          		alert_float('warning', response.message);
-          		window.location.replace(admin_url + 'spreadsheet_online/manage');
-          	}
+              $('select[name="departments_share['+index+']"]').val(departments_share[index]).change();
+              $('select[name="staffs_share['+index+']"]').val(staffs_share[index]).change();
+              onchane_handle_department(index, staff_share_value);
+              requestGet(admin_url + 'spreadsheet_online/get_my_folder_get_hash/staff/' + value + '/' + id_set).done(function(response_staff) {
+               response_staff = JSON.parse(response_staff);
+               $('select[name="role_staff['+index+']"]').val(response_staff.role ? response_staff.role : 1).change();
+             })
+            }
           });
-          break;
-          case 'share':
-          $('.remove_box_information_review').click();
-          $('.remove_box_information_review_client').click();
-          $('#ShareModal input[name="id"]').val(id_set);
-
-          if(id_set != ''){
-          	$('#ShareModal [name="update"]').val("true");
-          	requestGet(admin_url + 'spreadsheet_online/get_my_folder/'+ id_set).done(function(response) {
-          		response = JSON.parse(response);
-          		$('.share-row').removeClass('hide');
-          		if(response.group_share_client == 2){
-          			var hide_old = $('input[name="value-hidden"]').val();
-          			hide_old != '' ? $('input[name="value-hidden"]').val(hide_old+ ',' +response.group_share_client) : $('input[name="value-hidden"]').val(response.group_share_client);
-          			$('input[name="group_share_client"]').prop( "checked",true);
-          			$('.choosee-staff').removeClass('hide');
-          			if(response.client_groups_share || response.clients_share){
-          				var client_groups_share = response.client_groups_share.split(",");
-          				var clients_share = response.clients_share.split(",");
-
-
-          				$.each(clients_share, function (index, value) {
-                    client_share_value = clients_share[index];      
-                    if(index > 0){
-                      $('.new_box_information_review_client').click();
-                      $('select[name="client_groups_share['+index+']"]').val(client_groups_share[index]).change();
-                      $('select[name="clients_share['+index+']"]').val(clients_share[index]).change();
-                      onchane_handle_client(index, client_share_value);
-          						requestGet(admin_url + 'spreadsheet_online/get_my_folder_get_hash/client/' + value + '/' + id_set).done(function(response_client) {
-          							response_client = JSON.parse(response_client);
-                        $('select[name="role_client['+index+']"]').val(response_client.role ? response_client.role : 1).change();
-                      })
-          					}
-          					else{
-                      onchane_handle_client(index, client_share_value);
-                      $('select[name="client_groups_share['+index+']"]').val(client_groups_share[index]).change();
-                      $('select[name="clients_share['+index+']"]').val(clients_share[index]).change();
-          						requestGet(admin_url + 'spreadsheet_online/get_my_folder_get_hash/client/' + value + '/' + id_set).done(function(response_client) {
-          							response_client = JSON.parse(response_client);
-          							$('select[name="role_client['+index+']"]').val(response_client.role ? response_client.role : 1).change();
-          						})
-          					}
-          				});
-          			}
-          		}else{
-          			$('input[name="group_share_client').removeAttr('checked');
-          		}
-
-          		if(response.group_share_staff == 1){
-          			var hide_old = $('input[name="value-hidden"]').val();
-          			hide_old != '' ? $('input[name="value-hidden"]').val(hide_old+ ',' +response.group_share_staff) : $('input[name="value-hidden"]').val(response.group_share_staff);
-          			$('input[name="group_share_staff"]').prop( "checked",true);
-          			$('.choosee-customer').removeClass('hide');
-          			if(response.departments_share || response.staffs_share){
-          				var departments_share = response.departments_share.split(",");
-          				var staffs_share = response.staffs_share.split(",");
-          				$.each(staffs_share, function (index, value) {
-                    staff_share_value = staffs_share[index];  
-                    if(index > 0){
-                      $('.new_box_information_review').click();
-                      $('select[name="departments_share['+index+']"]').val(departments_share[index]).change();
-                      $('select[name="staffs_share['+index+']"]').val(staffs_share[index]).change();
-                      onchane_handle_department(index, staff_share_value);
-          						requestGet(admin_url + 'spreadsheet_online/get_my_folder_get_hash/staff/' + value + '/' + id_set).done(function(response_staff) {
-          							response_staff = JSON.parse(response_staff);
-          							if(response_staff){
-          								$('select[name="role_staff['+index+']"]').val(response_staff.role ? response_staff.role : 1).change();
-          							}
-          						})
-          					}
-          					else{
-                      $('select[name="departments_share['+index+']"]').val(departments_share[index]).change();
-                      $('select[name="staffs_share['+index+']"]').val(staffs_share[index]).change();
-                      onchane_handle_department(index, staff_share_value);
-                      requestGet(admin_url + 'spreadsheet_online/get_my_folder_get_hash/staff/' + value + '/' + id_set).done(function(response_staff) {
-                       response_staff = JSON.parse(response_staff);
-                       $('select[name="role_staff['+index+']"]').val(response_staff.role ? response_staff.role : 1).change();
-          						})
-                    }
-                  });
-          			}
-          		}else{
-          			$('input[name="group_share_staff').removeAttr('checked');
-          		}
-          	})
+        }
+      }else{
+       $('input[name="group_share_staff').removeAttr('checked');
+     }
+   })
 }else{
 	$('.remove_box_information_review').click();
 	$('.remove_box_information_review_client').click();
@@ -415,42 +438,28 @@ case "related":
 $('#RelatedModal input[name="id"]').val(id_set);
 var val = $('#RelatedModal [name="id"]').val();
 if(val != ''){
-  requestGet(admin_url + 'spreadsheet_online/get_related_id/'+ val).done(function(response) {
-    response = JSON.parse(response);
+  requestGet(admin_url + 'spreadsheet_online/get_related_id/'+ val).done(function(response_s) {
+    response_s = JSON.parse(response_s);
 
-    $.each(response.type, function(index, value){
-      if(index > 0){
-        $('.new_box_information_review_related').click();
-        $('select[name="rel_type['+index+']"]').val(value).change();
-        requestGet(admin_url + 'spreadsheet_online/get_related/' + value).done(function(response) {
-          response = JSON.parse(response);
+    $.each(response_s.type, function(index, value){
+      requestGet(admin_url + 'spreadsheet_online/get_related/' + value + '/' + response_s.id[index]).done(function(response) {
+        response = JSON.parse(response);
+        rel_id_select[index] = response_s.id[index];
+        if(index > 0){
+          $('.new_box_information_review_related').click();
+          $('select[name="rel_type['+index+']"]').val(value).change();
           $('[for="rel_id['+ index +']"]').html(value);
-          if(response == ''){
-            $('select[name="rel_id['+ index +']"]').html('');
-            $('select[name="rel_id['+ index +']"]').append('<option value=""></option>');
-          }else{
-            $('select[name="rel_id['+ index +']"]').html('');
-            $('select[name="rel_id['+ index +']"]').append(response);
-            $('select[name="rel_id['+ index +']"]').selectpicker('refresh');
-          }
-        })
-      }else{
-        $('select[name="rel_type['+index+']"]').val(value).change();
-        requestGet(admin_url + 'spreadsheet_online/get_related/' + value).done(function(response) {
-          response = JSON.parse(response);
+
+        }else{
+          $('select[name="rel_type['+index+']"]').val(value).change();
           $('[for="rel_id['+ index +']"]').html(value);
-          if(response == ''){
-            $('select[name="rel_id['+ index +']"]').append('<option value=""></option>');
-          }else{
-            $('select[name="rel_id['+ index +']"]').html('');
-            $('select[name="rel_id['+ index +']"]').append(response);
-            $('select[name="rel_id['+ index +']"]').selectpicker('refresh');
-          }
-        })
 
-      }
 
+
+        }
+      })
     })
+
     
   })
 }
@@ -464,18 +473,26 @@ requestGet(admin_url + 'spreadsheet_online/get_folder_zip/'+ id_set + '/' + name
 })
 break;
 case "d_file":
-requestGet(admin_url + 'spreadsheet_online/get_file_sheet/'+ id_set).done(function(response) {
+requestGet(admin_url + 'spreadsheet_online/check_file_exits/'+id_set).done(function(response) {
   response = JSON.parse(response);
-  if (doc_type == "word")
-  {
-    ExportToDoc(response,name);
+  if(response.success){
+    requestGet(admin_url + 'spreadsheet_online/get_file_sheet/'+ id_set).done(function(response1) {
+      response1 = JSON.parse(response1);
+      if (doc_type == "word")
+        {
+          ExportToDoc(JSON.parse(response1),name);
+        }
+        else
+        {
+          exportExcel(JSON.parse(response1), name);
+        }
+    })
+  }else{
+    alert_float('warning', response.message);
   }
-  else
-  {
-    exportExcel(JSON.parse(response), name);
-  }
-	
 })
+
+
 break;
 case "create_file":
 $("input[name='parent_id']").val(id_set);
@@ -488,13 +505,36 @@ break;
 default:
 if(type == 'file'){
 	if(share == false){
-		window.location.replace(admin_url + 'spreadsheet_online/new_file_view/'+parent_id+'/'+id_set);
-	}else{
-		requestGet(admin_url + 'spreadsheet_online/get_hash_staff/' + id_set).done(function(response) {
-			response = JSON.parse(response);
-			window.location.replace(admin_url + 'spreadsheet_online/file_view_share/'+response.hash);
-		})
-	}
+   requestGet(admin_url + 'spreadsheet_online/check_file_exits/'+id_set).done(function(response) {
+    response = JSON.parse(response);
+    if(response.success){
+      window.location.replace(admin_url + 'spreadsheet_online/new_file_view/'+parent_id+'/'+id_set);
+    }else{
+      alert_float('warning', response.message);
+    }
+  })
+ }else{
+  requestGet(admin_url + 'spreadsheet_online/check_file_exits/'+id_set).done(function(response) {
+    response = JSON.parse(response);
+    if(response.success){
+      requestGet(admin_url + 'spreadsheet_online/get_hash_staff/' + id_set).done(function(response1) {
+        response1 = JSON.parse(response1);
+        if (doc_type == "excel")
+        {
+          window.location.replace(admin_url + 'spreadsheet_online/file_view_share/'+response1.hash);
+
+        }
+        else if (doc_type == "word")
+        {
+          window.location.replace(admin_url + 'spreadsheet_online/file_word_view_share/'+response1.hash);
+
+        }
+      })
+    }else{
+      alert_float('warning', response.message);
+    }
+  })
+}
 }else{
 	$('#AddFolderModal .add-new').addClass('hide');
 	$('#AddFolderModal .update-new').removeClass('hide');
@@ -506,4 +546,29 @@ if(type == 'file'){
 break;
 }
 toggleMenuOff();
+
+
+var _rel_id = $('select[name="rel_id[0]'),
+_rel_type = $('select[name="rel_type[0]'),
+_rel_id_wrapper = $('#rel_id_wrapper');
+
+$('select[name="rel_type[0]"]').on('change', function() {
+  var name = $(this).val();
+  requestGet(admin_url + 'spreadsheet_online/get_related/' + _rel_type.val()).done(function(response) {
+    response = JSON.parse(response);
+    $('[for="rel_id[0]"]').html(name);
+    if(response == ''){
+      $('select[name="rel_id[0]"]').append('<option value="" selected></option>');
+      $('select[name="rel_id[0]"]').selectpicker('refresh');
+    }else{
+      $('select[name="rel_id[0]"]').html(response);
+      $('select[name="rel_id[0]"]').selectpicker('refresh');
+    }
+    var obj = $('select[name*="rel_id"]');
+    for(let i = 0; i < rel_id_select.length; i++){
+      obj.eq(i).val(rel_id_select[i]).change();  
+    }
+  });
+
+})
 }

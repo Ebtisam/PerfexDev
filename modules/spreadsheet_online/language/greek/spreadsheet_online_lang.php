@@ -32,3 +32,9 @@ $lang['related_detail']                                                         
 $lang['create_folder']                                                         			 = 'ΔΗΜΙΟΥΡΓΩ φακελο';
 $lang['create_file']                                                         			 = 'Δημιουργία αρχείου';
 $lang['save_as']                                                         			 = 'Αποθήκευση ως';
+$lang['notifications'] = 'Ειδοποιήσεις Ιστού';
+$lang['email_templates'] = 'Ειδοποιήσεις μέσω email';
+$lang['setting_notification'] = 'Ρυθμίσεις ειδοποίησης';
+$lang['share'] = 'Κοινή χρήση';
+$lang['for_you'] = 'για εσάς';
+$lang['ss_guide_email_template'] = 'Για να διαμορφώσετε πρότυπα email, μεταβείτε στην ενότητα Ρύθμιση -> Πρότυπα email -> Spreadsheet online';

@@ -32,3 +32,9 @@ $lang['related_detail']                                                         
 $lang['create_folder']                                                         			 = 'Map aanmaken';
 $lang['create_file']                                                         			 = 'Maak een bestand';
 $lang['save_as']                                                         			 = 'Opslaan als';
+$lang['notificaties'] = 'Webmeldingen';
+$lang['email_templates'] = 'E-mailmeldingen';
+$lang['setting_notification'] = 'Meldingsinstellingen';
+$lang['share'] = 'Delen';
+$lang['for_you'] = 'voor jou';
+$lang['ss_guide_email_template'] = 'Om e-mailsjablonen te configureren, ga naar Instellingen -> E-mailsjablonen -> Spreadsheet online';

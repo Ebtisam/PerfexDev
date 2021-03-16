@@ -32,3 +32,9 @@ $lang['related_detail']                                                         
 $lang['create_folder']                                                         			 = 'Creare una cartella';
 $lang['create_file']                                                         			 = 'Crea file';
 $lang['save_as']                                                         			 = 'Salva come';
+$lang['notifications'] = 'Notifikasi web';
+$lang['email_templates'] = 'Notifiche e-mail';
+$lang['setting_notification'] = 'Impostazioni di notifica';
+$lang['share'] = 'Condividi';
+$lang['for_you'] = 'per te';
+$lang['ss_guide_email_template'] = 'Per configurare i modelli di email, vai su Configurazione -> Modelli di email -> Foglio di calcolo online';

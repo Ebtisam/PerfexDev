@@ -134,47 +134,54 @@
   });
 
   $('#spreadsheet-advanced .tr-pointer').on('dblclick', function(){
-      var type = $(this).parents("tr").data("tt-type");
-      var parent_id = $(this).parents('tr').data('tt-parent-id');
-      parent_id = parent_id == undefined ? 0 : parent_id;
-      var id_set = $(this).parents('tr').data('tt-id');
-      var name = $(this).parents('tr').data('tt-name');
-      var share = $('.button-group__mono-colors').data('share');
-      var doc_type = $(this).parents('tr').data('tt-doctype');
+    var type = $(this).parents("tr").data("tt-type");
+    var parent_id = $(this).parents('tr').data('tt-parent-id');
+    parent_id = parent_id == undefined ? 0 : parent_id;
+    var id_set = $(this).parents('tr').data('tt-id');
+    var name = $(this).parents('tr').data('tt-name');
+    var share = $('.button-group__mono-colors').data('share');
+    var doc_type = $(this).parents('tr').data('tt-doctype');
 
-      if(type == "file"){
-        if(share == false && doc_type =="excel"){
-          
-          window.location.replace(admin_url + 'spreadsheet_online/new_file_view/'+parent_id+'/'+id_set);
-        }
-        else if(share == false && doc_type =="word"){
-          window.location.replace(admin_url + 'spreadsheet_online/new_word_file_view/'+parent_id+'/'+id_set);
-        }
-        else{
-          //alert"share");
-          $.get(site_url + 'spreadsheet_online/spreadsheet_online_client/get_hash_client/' + id_set).done(function(response) {
-            response = JSON.parse(response);
+
+    if(type == "file"){
+      if(share == false && doc_type =="excel"){
+        window.location.replace(admin_url + 'spreadsheet_online/new_file_view/'+parent_id+'/'+id_set);
+      }
+      else if(share == false && doc_type =="word"){
+        window.location.replace(admin_url + 'spreadsheet_online/new_word_file_view/'+parent_id+'/'+id_set);
+      }
+      else{
+        $.get(site_url + 'spreadsheet_online/spreadsheet_online_client/check_file_exits/'+id_set).done(function(response) {
+          response = JSON.parse(response);
+          if(response.success){
+            $.get(site_url + 'spreadsheet_online/spreadsheet_online_client/get_hash_client/' + id_set).done(function(response1) {
+              response1 = JSON.parse(response1);
             if(doc_type == "excel")
             {
-              window.location.replace(site_url + 'spreadsheet_online/spreadsheet_online_client/file_view_share/'+response.hash);
-
+              window.location.replace(site_url + 'spreadsheet_online/spreadsheet_online_client/file_view_share/'+response1.hash);
             }
             else if(doc_type == "word")
             {
               //alert"word");
-              window.location.replace(site_url + 'spreadsheet_online/spreadsheet_online_client/file_word_view_share/'+response.hash);
-
+              window.location.replace(site_url + 'spreadsheet_online/spreadsheet_online_client/file_word_view_share/'+response1.hash);
             }
+
           })
+         }else{
+          alert_float('warning', response.message);
         }
-      }else{
-        if($(this).parents("tr").hasClass("collapsed")){
-          $("#spreadsheet-advanced").treetable("expandNode", $(this).parents("tr").data("ttId"));
-        }else{
-          $("#spreadsheet-advanced").treetable("collapseNode", $(this).parents("tr").data("ttId"));
-        }
+      })
+
+
       }
-    })
+    }else{
+      if($(this).parents("tr").hasClass("collapsed")){
+        $("#spreadsheet-advanced").treetable("expandNode", $(this).parents("tr").data("ttId"));
+      }else{
+        $("#spreadsheet-advanced").treetable("collapseNode", $(this).parents("tr").data("ttId"));
+      }
+    }
+  })
 })(jQuery);
 
 function clickInsideElement( e, className ) {

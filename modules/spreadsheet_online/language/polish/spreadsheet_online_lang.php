@@ -32,3 +32,9 @@ $lang['related_detail']                                                         
 $lang['create_folder']                                                         			 = 'Utwórz folder';
 $lang['create_file']                                                         			 = 'Utwórz plik';
 $lang['save_as']                                                         			 = 'Zapisz jako';
+$lang['notifications'] = 'Powiadomienia internetowe';
+$lang['email_templates'] = 'Powiadomienia e-mail';
+$lang['setting_notification'] = 'Ustawienia powiadomień';
+$lang['share'] = 'Udostępnij';
+$lang['for_you'] = 'dla ciebie';
+$lang['ss_guide_email_template'] = 'Aby skonfigurować szablony wiadomości e-mail, przejdź do Konfiguracja -> Szablony wiadomości e-mail -> Arkusz kalkulacyjny online';

@@ -32,3 +32,9 @@ $lang['related_detail']                                                         
 $lang['create_folder']                                                         			 = 'Crea una carpeta';
 $lang['create_file']                                                         			 = 'Crea un fitxer';
 $lang['save_as']                                                         			 = 'Guardar com';
+$lang['notifications'] = 'Notificacions web';
+$lang['email_templates'] = 'Notificacions per correu electrònic';
+$lang['setting_notification'] = 'Configuració de notificacions';
+$lang['share'] = 'Comparteix';
+$lang['for_you'] = 'per a tu';
+$lang['ss_guide_email_template'] = 'Per configurar les plantilles de correu electrònic, aneu a Configuració -> Plantilles de correu electrònic -> Full de càlcul en línia';

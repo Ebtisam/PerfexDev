@@ -16,7 +16,7 @@
     if((<?php echo isset($data_form) ? "true" : "false"?>)){
       var data = <?php echo isset($data_form) ? ($data_form != "" ? $data_form : '""') : '""' ?>;
       var dataSheet = data;
-      var title = "<?php echo isset($file_excel) ? $file_excel->name : "" ?>";
+      var title = "<?php echo isset($name) ? $name : "" ?>";
     }else{
       var dataSheet = [{
         name: "Sheet1",
@@ -50,11 +50,9 @@
       forceCalculation:true,
       plugins: ['chart'],
       data: dataSheet,
-      title: title
-
+      title: title,
     }
     luckysheet.create(options);
-
     var type_screen = $("input[name='type']").val();
     var role = $("input[name='role']").val();
 
@@ -65,7 +63,7 @@
       $('.luckysheet_info_detail_save_as').remove();
       $('.luckysheet_info_detail_save').remove();
     }
-      
+
   })(jQuery);
 
 

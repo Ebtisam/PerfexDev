@@ -32,3 +32,10 @@ $lang['related_detail']                                                         
 $lang['create_folder']                                                         			= 'Tạo thư mục';
 $lang['create_file']                                                         			= 'Tạo tập tin';
 $lang['save_as']                                                         			= 'Lưu thành';
+$lang['notifications']                                                         			= 'Thông báo qua web';
+$lang['email_templates']                                                         			= 'Thông báo qua email';
+$lang['setting_notification']                                                         			= 'Cài đặt thông báo';
+$lang['share']                                                         			= 'Chia sẽ';
+$lang['for_you']                                                         			= 'Cho bạn';
+$lang['ss_guide_email_template'] = 'Để định cấu hình các mẫu email, vui lòng vào Cài đặt -> Mẫu email -> Bảng tính trực tuyến';
+$lang['physical_file_have_been_deleted'] = 'Tệp vật lý đã bị xóa trước đó';

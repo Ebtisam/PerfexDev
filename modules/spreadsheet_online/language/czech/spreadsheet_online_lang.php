@@ -32,3 +32,9 @@ $lang['related_detail']                                                         
 $lang['create_folder']                                                         			 = 'Vytvořit složku';
 $lang['create_file']                                                         			 = 'Vytvořit soubor';
 $lang['save_as']                                                         			 = 'Uložit jako';
+$lang['notifications'] = 'Oznámení na webu';
+$lang['email_templates'] = 'E-mailová upozornění';
+$lang['setting_notification'] = 'Nastavení oznámení';
+$lang['share'] = 'Sdílet';
+$lang['for_you'] = 'pro vás';
+$lang['ss_guide_email_template'] = 'Chcete-li konfigurovat e-mailové šablony, přejděte do části Nastavení -> E-mailové šablony -> Tabulka online';

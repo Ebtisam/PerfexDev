@@ -32,3 +32,9 @@ $lang['related_detail']                                                         
 $lang['create_folder']                                                         			 = 'پرونده بساز';
 $lang['create_file']                                                         			 = 'ایجاد پرونده';
 $lang['save_as']                                                         			 = 'ذخیره به عنوان';
+$lang['notifications']                                                         			= 'اعلان های وب';
+$lang['email_templates']                                                         			= 'اعلان های ایمیل';
+$lang['setting_notification']                                                         			= 'تنظیمات اعلان';
+$lang['share']                                                         			= 'اشتراک گذاری';
+$lang['for_you']                                                         			= 'برای شما';
+$lang['ss_guide_email_template'] = 'برای پیکربندی الگوهای ایمیل ، لطفاً به تنظیم -> الگوهای ایمیل -> صفحه گسترده آنلاین بروید';

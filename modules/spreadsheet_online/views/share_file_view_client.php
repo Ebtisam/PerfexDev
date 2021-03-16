@@ -2,6 +2,7 @@
 <div id="luckysheet"></div>
 <?php echo form_hidden('parent_id', $parent_id);  ?>
 <?php echo form_hidden('id', isset($id) ? $id : "");  ?>
+<?php echo form_hidden('client_screen', "true");  ?>
 <?php echo form_close(); ?>  
 
 <?php echo form_hidden('type', 3);  ?>

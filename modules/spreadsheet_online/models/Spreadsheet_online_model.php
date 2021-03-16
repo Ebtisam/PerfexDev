@@ -39,6 +39,11 @@ class Spreadsheet_online_model extends App_Model
 		$online_related = $this->db->get(db_prefix().'spreadsheet_online_related')->result_array();
 
 		$type= $root['type'] == 'folder' ? "folder" : "file";
+		if($root['id'] == $parent_id){
+			$this->db->where('id', $root['id']);
+			$this->db->update(db_prefix().'spreadsheet_online_my_folder', ['parent_id' => ""]);
+			$parent_id = '';
+		}
 		$status_share = $root['staffs_share'] != '' || $root['departments_share'] != '' || $root['clients_share'] != '' || $root['client_groups_share'] != '' ? $html_change : '';
 		if($parent_id == ''){
 			$tree_tr .= '<tr class="right-menu-position" data-tt-id="'.$root['id'].'" data-tt-name="'.$root['name'].'" data-tt-doctype="'.$root['doc_type'].'" data-tt-type="'.$type.'">';
@@ -89,6 +94,11 @@ class Spreadsheet_online_model extends App_Model
 
 		$data = $this->get_my_folder_by_parent_id($root['id']);
 		foreach ($data as $data_key => $data_val) {
+			if(($data_val['id'] == $data_val['parent_id'])){
+				$this->db->where('id', $data_val['id']);
+				$this->db->update(db_prefix().'spreadsheet_online_my_folder', ['parent_id' => ""]);
+				$data_val['parent_id'] = "";
+			}
 			$tree_tr .= $this->dq_tree_my_folder($data_val, $data_val['parent_id']);
 		}
 		return $tree_tr;
@@ -165,7 +175,7 @@ class Spreadsheet_online_model extends App_Model
 	public function edit_folder($data){
 		if(isset($data['parent_id'])){
 			if($data['parent_id'] == ''){
-				$data['parent_id'] = 0;
+				$data['parent_id'] = '';
 			}
 		}	
 		unset($data['parent_id']);
@@ -198,9 +208,16 @@ class Spreadsheet_online_model extends App_Model
 				$data['data_form'] = str_replace('""', '"', $data['data_form']); 
 			}
 		}
+		$data_form = $data['data_form'];
+		$data['data_form'] = '';
 		unset($data['image_flag']);
 		$this->db->insert(db_prefix() . 'spreadsheet_online_my_folder', $data);
 		$insert_id = $this->db->insert_id();
+		$path = SPREAD_ONLINE_MODULE_UPLOAD_FOLDER . '/spreadsheet_online/' . $insert_id . '-'.$data['name'].'.txt';
+		$realpath_data = '/spreadsheet_online/' . $insert_id . '-'.$data['name'].'.txt';
+		file_force_contents($path, $data_form);
+		$this->db->where('id', $insert_id);
+		$this->db->update(db_prefix() . 'spreadsheet_online_my_folder', ['realpath_data' => $realpath_data]);
 		if($list_child){
 			if($list_child->staffs_share != ''){
 				$staff_share = explode(',', $list_child->staffs_share);
@@ -254,13 +271,28 @@ class Spreadsheet_online_model extends App_Model
 			$data['data_form'] = str_replace('imga$imga', '"', $data['data_form']); 
 			$data['data_form'] = str_replace('""', '"', $data['data_form']); 
 		}
+		$data_form = $data['data_form'];
+		$data['data_form'] = '';
 		unset($data['image_flag']);
-		
+
+		$this->db->select('name');
+		$this->db->where('id', $data['id']);
+		$data_old = $this->db->get(db_prefix() . 'spreadsheet_online_my_folder')->row();
+
+		$dir =  SPREAD_ONLINE_MODULE_UPLOAD_FOLDER . '/spreadsheet_online/' . $data['id'] . '-'.$data_old->name.'.txt';
+		if(file_exists($dir)){
+			unlink($dir);
+		}
+
+		$path = SPREAD_ONLINE_MODULE_UPLOAD_FOLDER . '/spreadsheet_online/' . $data['id'] . '-'.$data['name'].'.txt';
+		$realpath_data = '/spreadsheet_online/' . $data['id']. '-'.$data['name'].'.txt';
+		file_force_contents($path, $data_form);
 		$this->db->where('id', $data['id']);
 		$this->db->update(db_prefix() . 'spreadsheet_online_my_folder', [
 			'name' => $data['name'], 
 			'parent_id' => $data['parent_id'], 
-			'data_form' => $data['data_form']
+			'data_form' => $data['data_form'],
+			'realpath_data' => $realpath_data
 		]);
 
 		return true;
@@ -271,11 +303,52 @@ class Spreadsheet_online_model extends App_Model
 	 * @return boolean    
 	 */
 	public function delete_folder_file($id){
+		$this->db->select('name');
+		$this->db->where('id', $id);
+		$data = $this->db->get(db_prefix() . 'spreadsheet_online_my_folder')->row();
+
+		$dir =  SPREAD_ONLINE_MODULE_UPLOAD_FOLDER . '/spreadsheet_online/' . $id . '-'.$data->name.'.txt';
+		if(file_exists($dir)){
+			unlink($dir);
+		}
 		$this->db->where('id', $id);
 		$this->db->delete(db_prefix() . 'spreadsheet_online_my_folder');
+
 		if ($this->db->affected_rows() > 0) {
+			$this->db->select('id');
+			$this->db->where('parent_id', $id);
+			$speadsheets = $this->db->get(db_prefix() . 'spreadsheet_online_my_folder')->result_array();
+			if(count($speadsheets) > 0){	
+				foreach ($speadsheets as $key => $value) {
+					$this->db->select('name');
+					$this->db->where('id', $value['id']);
+					$data_child = $this->db->get(db_prefix() . 'spreadsheet_online_my_folder')->row();
+					$dir_child =  SPREAD_ONLINE_MODULE_UPLOAD_FOLDER . '/spreadsheet_online/' . $value['id'] . '-'.$data_child->name.'.txt';
+
+					if(file_exists($dir_child)){
+						unlink($dir_child);
+					}
+
+					$this->db->where('id', $value['id']);
+					$this->db->delete(db_prefix() . 'spreadsheet_online_my_folder');
+
+					$this->db->where('parent_id', $value['id']);
+					$this->db->delete(db_prefix() . 'spreadsheet_online_related');
+
+					$this->db->where('id_share', $value['id']);
+					$this->db->delete(db_prefix() . 'spreadsheet_online_hash_share');
+
+				}
+			}
+			//delete all table child 
 			$this->db->where('parent_id', $id);
 			$this->db->delete(db_prefix() . 'spreadsheet_online_my_folder');
+
+			$this->db->where('parent_id', $id);
+			$this->db->delete(db_prefix() . 'spreadsheet_online_related');
+
+			$this->db->where('id_share', $id);
+			$this->db->delete(db_prefix() . 'spreadsheet_online_hash_share');
 			return true;
 		}
 		return false;
@@ -556,7 +629,6 @@ class Spreadsheet_online_model extends App_Model
 			$data['departments_share'] = implode(',',array_unique(explode(',', implode(',', array_unique($departments_share))))); 
 			$data['clients_share'] = implode(',',array_unique(explode(',', implode(',', array_unique($clients_share))))); 
 			$data['client_groups_share'] = implode(',',array_unique(explode(',', implode(',', array_unique($client_groups_share))))); 
-			
 			$this->db->where('id', $data['id']);
 			$this->db->update(db_prefix() . 'spreadsheet_online_my_folder', $data);
 
@@ -691,10 +763,8 @@ class Spreadsheet_online_model extends App_Model
 	 */
 	public function tree_my_folder_share()
 	{
-		log_message("error","tree_my_folder_share");
 		$staffid = get_staff_user_id();
 		$data = $this->get_my_folder_by_staff_share_folder($staffid);
-		log_message("error",$staffid);
 		$tree = "<tbody>";
 		foreach ($data as $data_key => $data_val) {			
 			$tree .= $this->dq_tree_my_folder_share($data_val);			
@@ -713,6 +783,11 @@ class Spreadsheet_online_model extends App_Model
 		$get_hash = $this->get_hash('staff', get_staff_user_id(), $root['id']);
 		$tree_tr = '';
 		$type= $root['type'] == 'folder' ? "folder" : "file";
+		if($root['id'] == $parent_id){
+			$this->db->where('id', $root['id']);
+			$this->db->update(db_prefix().'spreadsheet_online_my_folder', ['parent_id' => ""]);
+			$parent_id = '';
+		}
 		if($parent_id == ''){
 			$tree_tr .= '<tr class="right-menu-position" data-tt-id="'.$root['id'].'" data-tt-role="'.$get_hash->role.'" data-tt-name="'.$root['name'].'" data-tt-doctype="'.$root['doc_type'].'" data-tt-type="'.$type.'">';
 			$tree_tr .= '
@@ -735,6 +810,11 @@ class Spreadsheet_online_model extends App_Model
 
 		$data = $this->get_my_folder_by_parent_id($root['id']);
 		foreach ($data as $data_key => $data_val) {
+			if(($data_val['id'] == $data_val['parent_id'])){
+				$this->db->where('id', $data_val['id']);
+				$this->db->update(db_prefix().'spreadsheet_online_my_folder', ['parent_id' => ""]);
+				$data_val['parent_id'] = "";
+			}
 			$tree_tr .= $this->dq_tree_my_folder_share($data_val, $data_val['parent_id']);
 		}
 		return $tree_tr;
@@ -772,6 +852,7 @@ class Spreadsheet_online_model extends App_Model
 		$clientid = get_client_user_id();
 		$data = $this->get_my_folder_by_client_share_folder($clientid);
 		$tree = "<tbody>";
+
 		foreach ($data as $data_key => $data_val) {			
 			$tree .= $this->dq_tree_my_folder_share_client($data_val);			
 		}
@@ -782,8 +863,18 @@ class Spreadsheet_online_model extends App_Model
 	public function dq_tree_my_folder_share_client($root, $parent_id = '')
 	{
 		$get_hash = $this->get_hash('client', get_client_user_id(), $root['id']);
+		$get_hash_role =0;
+		if($get_hash){
+			$get_hash_role = $get_hash->role;
+		}
+
 		$tree_tr = '';
 		$type= $root['type'] == 'folder' ? "folder" : "file";
+		if($root['id'] == $parent_id){
+			$this->db->where('id', $root['id']);
+			$this->db->update(db_prefix().'spreadsheet_online_my_folder', ['parent_id' => ""]);
+			$parent_id = '';
+		}
 		if($parent_id == ''){
 			$tree_tr .= '<tr class="right-menu-position" data-tt-id="'.$root['id'].'" data-tt-role="'.$get_hash->role.'" data-tt-name="'.$root['name'].'" data-tt-doctype="'.$root['doc_type'].'" data-tt-type="'.$type.'">';
 			$tree_tr .= '
@@ -806,6 +897,11 @@ class Spreadsheet_online_model extends App_Model
 
 		$data = $this->get_my_folder_by_parent_id($root['id']);
 		foreach ($data as $data_key => $data_val) {
+			if(($data_val['id'] == $data_val['parent_id'])){
+				$this->db->where('id', $data_val['id']);
+				$this->db->update(db_prefix().'spreadsheet_online_my_folder', ['parent_id' => ""]);
+				$data_val['parent_id'] = "";
+			}
 			$tree_tr .= $this->dq_tree_my_folder_share_client($data_val, $data_val['parent_id']);
 		}
 		return $tree_tr;
@@ -827,22 +923,45 @@ class Spreadsheet_online_model extends App_Model
 
 		$this->db->where('id', $data['id']);
 		$this->db->update(db_prefix() . 'spreadsheet_online_my_folder', $data);
-		if ($this->db->affected_rows() > 0) {
+		// if ($this->db->affected_rows() > 0) {
 			$this->db->where('parent_id', $data['id']);
 			$this->db->delete(db_prefix() . 'spreadsheet_online_related');
+
 			if(count($data_rel_id) > 0){
 				foreach ($data_rel_id as $keys => $values) {
+
 					$data_s['parent_id'] = $data['id'];
 					$data_s['rel_type'] = $data_rel_type[$keys];
 					$data_s['rel_id'] = $values;
 					$data_s['role'] = 1;
 					$data_s['hash'] = app_generate_hash();
 					$this->db->insert(db_prefix() . 'spreadsheet_online_related', $data_s);
+
+					$this->db->select('id');
+					$this->db->where('parent_id', $data['id']);
+					$speadsheets = $this->db->get(db_prefix() . 'spreadsheet_online_my_folder')->result_array();
+
+					if(count($speadsheets) > 0){
+						foreach ($speadsheets as $key_speadsheets => $value_speadsheets) {
+							$data_speadsheets['parent_id'] = $value_speadsheets['id'];
+							$data_speadsheets['rel_type'] = $data_rel_type[$keys];
+							$data_speadsheets['rel_id'] = $values;
+							$data_speadsheets['role'] = 1;
+							$data_speadsheets['hash'] = app_generate_hash();
+							$this->db->insert(db_prefix() . 'spreadsheet_online_related', $data_speadsheets);
+							$data_child = []; 
+							$data_child['rel_type'] = $data['rel_type']; 
+							$data_child['id'] = $value_speadsheets['id']; 
+							$this->db->where('id', $value_speadsheets['id']);
+							$this->db->update(db_prefix() . 'spreadsheet_online_my_folder', $data_child);
+						}
+					}
+
 				}
 			}
 			return true;
-		}
-		return false;
+		// }
+		// return false;
 	}
 
 	public function get_share_detail($id){
@@ -940,10 +1059,7 @@ class Spreadsheet_online_model extends App_Model
 		$this->db->where('type', 'folder');
 		$this->db->where('parent_id', '0');
 		$this->db->where('staffid', get_staff_user_id());
-		//exit(var_dump(get_staff_user_id()));
-		$data = $this->db->get(db_prefix().'spreadsheet_online_my_folder')->result_array();
-		//exit(var_dump($data));
-		return $data;
+		return $this->db->get(db_prefix().'spreadsheet_online_my_folder')->result_array();
 	}
 
 	/**
@@ -959,10 +1075,7 @@ class Spreadsheet_online_model extends App_Model
 	}
 
 	public function get_folder_tree(){
-		log_message("error","get_folder_tree");
 		$department = $this->get_folder_type_tree();
-
-		log_message("error","dep");
         $dep_tree = array();
         foreach ($department as $key => $dep) {
             $node = array();
@@ -1052,5 +1165,30 @@ class Spreadsheet_online_model extends App_Model
 			return false;
 		}
 	}
+	/**
+	 * [notifications description]
+	 * @param  [type] $id_staff    [description]
+	 * @param  [type] $link        [description]
+	 * @param  [type] $description [description]
+	 * @return [type]              [description]
+	 */
+	public function notifications($id_staff, $link, $description){
+        $notifiedUsers = [];
+        $id_userlogin = get_staff_user_id();
+
+        $notified = add_notification([
+            'fromuserid'      => $id_userlogin,
+            'description'     => $description,
+            'link'            => $link,
+            'touserid'        => $id_staff,
+            'additional_data' => serialize([
+               $description,
+           ]),
+        ]);
+        if ($notified) {
+            array_push($notifiedUsers, $id_staff);
+        }
+        pusher_trigger_notification($notifiedUsers);
+    }
 }	
 

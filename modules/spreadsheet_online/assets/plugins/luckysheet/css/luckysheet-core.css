@@ -45,8 +45,9 @@
     top: 0px;
     margin: 0px;
     padding: 0 17px;
-    width: 87% !important; 
-    transform: translate(5px, 10px);
+    /* Ebtisam update trying to fix RTL*/
+    width: 80% !important; 
+   /* transform: translate(5px, 10px);*/
     height: 56px;
     display: flex;
     align-items: center;

@@ -32,3 +32,10 @@ $lang['related_detail']                                                         
 $lang['create_folder']                                                         			= 'Create Folder';
 $lang['create_file']                                                         			= 'Create File';
 $lang['save_as']                                                         			= 'Save As';
+$lang['notifications']                                                         			= 'Web notifications';
+$lang['email_templates']                                                         			= 'Email notifications';
+$lang['setting_notification']                                                         			= 'Notification settings';
+$lang['share']                                                         			= 'Share';
+$lang['for_you']                                                         			= 'for you';
+$lang['ss_guide_email_template'] = 'To configure email templates, please go to Setup -> Email templates -> Spreadsheet online';
+$lang['physical_file_have_been_deleted'] = 'The physical file has been deleted previously';

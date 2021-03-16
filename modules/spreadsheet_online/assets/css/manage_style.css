@@ -2367,3 +2367,23 @@ readers do not read off random characters that represent icons */
   -o-user-drag: none;
   user-drag: none;
 }
+
+.cursor{
+  cursor:pointer;
+}
+[data-tooltip] {
+    padding: 6px 18px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin-right: 1rem;

@@ -935,6 +935,9 @@ table#spreadsheet-advanced {
 
   left: 210px;
 
+  /* Ebtisam update RTL trying to push it aside*/
+  right: 210px;
+
   top:113px;
 
 }
@@ -2427,4 +2430,8 @@ table.content-table tr th{
   padding-bottom: 10px;
   padding-left: 6px;
   background-color: #fff;
+}
+
+.new_file_margin {
+  margin: 0 0 -7px 0px !important;
 }

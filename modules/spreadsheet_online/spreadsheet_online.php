@@ -5,7 +5,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 /*
 Module Name: Spreadsheet Online
 Description: A powerful spreadsheet editor that lets you do pretty much everything you can do with contemporary spreadsheet software like Excel.
-Version: 1.0.3
+Version: 1.0.7
 Requires at least: 2.3.*
 Author: GreenTech Solutions
 Author URI: https://codecanyon.net/user/greentech_solutions
@@ -13,6 +13,7 @@ Author URI: https://codecanyon.net/user/greentech_solutions
 
 define('SPREAD_ONLINE_MODULE_NAME', 'spreadsheet_online');
 define('SPREAD_ONLINE_MODULE_UPLOAD_FOLDER', module_dir_path(SPREAD_ONLINE_MODULE_NAME, 'uploads'));
+define('SPREAD_ONLINE_PATH', 'modules/spreadsheet_online/uploads/');
 hooks()->add_action('app_admin_head', 'spreadsheet_online_add_head_component');
 hooks()->add_action('app_admin_footer', 'spreadsheet_online_load_js');
 hooks()->add_action('admin_init', 'spreadsheet_online_module_init_menu_items');
@@ -49,8 +50,10 @@ hooks()->add_action('after_tab_expense_content', 'init_tab_expense_content');
 hooks()->add_action('after_li_lead_view', 'init_tab_lead');
 hooks()->add_action('after_tab_lead_content', 'init_tab_lead_content');
 
-define('VERSION_SREADSHEET', 103);
+define('VERSION_SREADSHEET', 107);
 define('folder', 'folder');
+//email theme
+register_merge_fields('spreadsheet_online/merge_fields/spreadsheet_share_merge_fields');
 
 /**
 * Register activation module hook
@@ -132,11 +135,10 @@ function spreadsheet_online_add_head_component(){
         echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/spectrum.min.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
         echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/chartmix.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
     }
-
     if (!(strpos($viewuri,'admin/spreadsheet_online/new_word_file_view') === false) || !(strpos($viewuri,'admin/spreadsheet_online/file_word_view_share') === false)) {
       echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/ComboTree/style.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
       echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/css/manage.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
-  }
+  } 
 }
 
 /**
@@ -154,7 +156,7 @@ function spreadsheet_online_load_js(){
         echo 'var create_folder = "' . _l('create_folder') . '";';
         echo 'var edit = "' . _l('edit') . '";';
         echo '</script>';
-        echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/ludo-jquery-treetable/jquery-ui.min.js').'?v=' . VERSION_SREADSHEET.'"></script>';
+        // echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/ludo-jquery-treetable/jquery-ui.min.js').'?v=' . VERSION_SREADSHEET.'"></script>';
         echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/ludo-jquery-treetable/jquery.treetable.js').'?v=' . VERSION_SREADSHEET.'"></script>';
         echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/js/manage.js').'?v=' . VERSION_SREADSHEET.'"></script>';
         echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/js/context_menu.js').'?v=' . VERSION_SREADSHEET.'"></script>';
@@ -169,7 +171,7 @@ function spreadsheet_online_load_js(){
     if (!(strpos($viewuri,'admin/projects/view') === false)  || !(strpos($viewuri,'admin/estimates') === false) || !(strpos($viewuri,'admin/proposals') === false) || !(strpos($viewuri,'admin/invoices') === false) || !(strpos($viewuri,'admin/expenses') === false) || !(strpos($viewuri,'admin/leads') === false)) {
 
         echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/js/manage.js').'?v=' . VERSION_SREADSHEET.'"></script>';
-        echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/ludo-jquery-treetable/jquery-ui.min.js').'?v=' . VERSION_SREADSHEET.'"></script>';
+        // echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/ludo-jquery-treetable/jquery-ui.min.js').'?v=' . VERSION_SREADSHEET.'"></script>';
         echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/ludo-jquery-treetable/jquery.treetable.js').'?v=' . VERSION_SREADSHEET.'"></script>';
         echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/js/relate_to.js').'?v=' . VERSION_SREADSHEET.'"></script>';
         echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/js/luckysheet.umd.js').'?v=' . VERSION_SREADSHEET.'"></script>';
@@ -197,8 +199,9 @@ function spreadsheet_online_load_js(){
         echo '<script  src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/js/exports.js').'?v=' . VERSION_SREADSHEET.'"></script>';
         echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/js/upload_file.js').'?v=' . VERSION_SREADSHEET.'"></script>';
         echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/js/luckyexcel.js').'?v=' . VERSION_SREADSHEET.'"></script>';
+        echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/js/flatpickr.js').'?v=' . VERSION_SREADSHEET.'"></script>';
+        echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/js/dayjs.js').'?v=' . VERSION_SREADSHEET.'"></script>';
     }
-
     if (!(strpos($viewuri,'admin/spreadsheet_online/new_word_file_view') === false) || !(strpos($viewuri,'admin/spreadsheet_online/file_word_view_share') === false)) {
 
       echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/ComboTree/comboTreePlugin.js').'?v=' . VERSION_SREADSHEET.'"></script>';
@@ -208,7 +211,6 @@ function spreadsheet_online_load_js(){
       echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/TinymceHelper/helper.js').'?v=' . VERSION_SREADSHEET.'"></script>';
   
     }
-
 }
 /**
  *  add menu item and js file to client
@@ -222,75 +224,75 @@ function spreadsheet_online_module_init_client_menu_items()
     if (!(strpos($viewuri,'spreadsheet_online/spreadsheet_online_client/file_view_share_related') === false)) {
         echo "<style>
                 #luckysheet {
-            height: 80% !important;
-            left: 2px !important;
-            top: 100px !important;
-        }
-        </style>";
-        echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/css/custom.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
-        echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/ludo-jquery-treetable/css/jquery.treetable.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
-        echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/ludo-jquery-treetable/css/jquery.treetable.theme.default.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
-        echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/ludo-jquery-treetable/css/screen.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
-        echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/css/manage.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
-        echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/iconfont.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
-        echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/luckysheet.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
-        echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/plugins.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
-        echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/pluginsCss.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
-
-        echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/iconCustom.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
-        echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/luckysheet-cellFormat.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
-        echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/luckysheet-print.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
-        echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/luckysheet-protection.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
-        echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/luckysheet-zoom.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
-        echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/chartmix.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
-        echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/spectrum.min.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
-        echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/chartmix.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
+        height: 80% !important;
+        left: 2px !important;
+        top: 100px !important;
     }
+    </style>";
+    echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/css/custom.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
+    echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/ludo-jquery-treetable/css/jquery.treetable.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
+    echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/ludo-jquery-treetable/css/jquery.treetable.theme.default.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
+    echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/ludo-jquery-treetable/css/screen.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
+    echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/css/manage.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
+    echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/iconfont.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
+    echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/luckysheet.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
+    echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/plugins.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
+    echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/pluginsCss.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
 
-    if(is_client_logged_in()){
-        if (!(strpos($viewuri,'spreadsheet_online/spreadsheet_online_client/file_view_share') === false) ) {
-            echo "<style>
+    echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/iconCustom.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
+    echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/luckysheet-cellFormat.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
+    echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/luckysheet-print.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
+    echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/luckysheet-protection.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
+    echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/luckysheet-zoom.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
+    echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/chartmix.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
+    echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/spectrum.min.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
+    echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/chartmix.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
+}
+
+if(is_client_logged_in()){
+    if (!(strpos($viewuri,'spreadsheet_online/spreadsheet_online_client/file_view_share') === false) ) {
+        echo "<style>
             #luckysheet {
-            height: 80% !important;
-            left: 2px !important;
-            top: 170px !important;
-        }
-        </style>";
-        echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/css/custom.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
+        height: 80% !important;
+        left: 2px !important;
+        top: 170px !important;
     }
+    </style>";
+    echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/css/custom.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
+}
 
-    if (!(strpos($viewuri,'spreadsheet_online/spreadsheet_online_client') === false)) {
-        echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/ludo-jquery-treetable/css/jquery.treetable.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
-        echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/ludo-jquery-treetable/css/jquery.treetable.theme.default.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
-        echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/ludo-jquery-treetable/css/screen.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
-        echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/css/manage.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
-        echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/iconfont.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
-        echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/luckysheet.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
-        echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/plugins.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
-        echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/pluginsCss.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
+if (!(strpos($viewuri,'spreadsheet_online/spreadsheet_online_client') === false)) {
+    echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/ludo-jquery-treetable/css/jquery.treetable.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
+    echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/ludo-jquery-treetable/css/jquery.treetable.theme.default.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
+    echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/ludo-jquery-treetable/css/screen.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
+    echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/css/manage.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
+    echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/iconfont.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
+    echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/luckysheet.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
+    echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/plugins.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
+    echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/pluginsCss.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
 
-        echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/iconCustom.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
-        echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/luckysheet-cellFormat.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
-        echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/luckysheet-print.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
-        echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/luckysheet-protection.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
-        echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/luckysheet-zoom.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
-        echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/chartmix.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
-        echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/spectrum.min.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
-        echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/chartmix.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
-        echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/css/custom.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
+    echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/iconCustom.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
+    echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/luckysheet-cellFormat.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
+    echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/luckysheet-print.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
+    echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/luckysheet-protection.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
+    echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/luckysheet-zoom.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
+    echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/chartmix.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
+    echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/spectrum.min.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
+    echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/chartmix.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
+    echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/css/custom.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
 
-    }
+}
 
-    $client_id = get_client_user_id();
-    $CI->load->model('spreadsheet_online/spreadsheet_online_model');
-    $check_share = $CI->spreadsheet_online_model->get_my_folder_by_client_share_folder_view($client_id);
-    if($check_share){
-        echo '
-        <li class="customers-nav-item-Insurances-plan">
-        <a href="'.site_url('spreadsheet_online/spreadsheet_online_client').'">'._l('my_share_folder').'</a>
-        </li>
-        ';
-    }
+$client_id = get_client_user_id();
+$CI->load->model('spreadsheet_online/spreadsheet_online_model');
+$check_share = $CI->spreadsheet_online_model->get_my_folder_by_client_share_folder_view($client_id);
+if($check_share){
+    echo '
+    <li class="customers-nav-item-Insurances-plan">
+    <a href="'.site_url('spreadsheet_online/spreadsheet_online_client').'">'._l('my_share_folder').'</a>
+    </li>
+    ';
+}
 } 
 }
 
@@ -302,22 +304,28 @@ function spreadsheet_online_client_foot_js(){
     $viewuri = $_SERVER['REQUEST_URI'];
 
     if (!(strpos($viewuri,'spreadsheet_online/spreadsheet_online_client') === false)) {
-     echo '<script>';
-     echo 'var site_url = "' . site_url() . '";';
-     echo 'var admin_url = "' . admin_url() . '";';
-     echo 'var create_file = "' . _l('create_file') . '";';
-     echo 'var create_folder = "' . _l('create_folder') . '";';
-     echo 'var download_file = "' . _l('download') . '";';
-     echo 'var edit = "' . _l('edit') . '";';
-     echo '</script>';
-    
-     echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/ludo-jquery-treetable/jquery-ui.min.js').'?v=' . VERSION_SREADSHEET.'"></script>';
-     echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/ludo-jquery-treetable/jquery.treetable.js').'?v=' . VERSION_SREADSHEET.'"></script>';
-     echo '<script  src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/js/client_sheet.js').'?v=' . VERSION_SREADSHEET.'"></script>';
-     echo '<script  src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/js/context_menu_client.js').'?v=' . VERSION_SREADSHEET.'"></script>';
- }
+       echo '<script>';
+       echo 'var site_url = "' . site_url() . '";';
+       echo 'var admin_url = "' . admin_url() . '";';
+       echo 'var create_file = "' . _l('create_file') . '";';
+       echo 'var create_folder = "' . _l('create_folder') . '";';
+       echo 'var download_file = "' . _l('download') . '";';
+       echo 'var edit = "' . _l('edit') . '";';
 
- if(!(strpos($viewuri,'spreadsheet_online/spreadsheet_online_client/file_view_share') === false)){
+       echo '</script>';
+
+       echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/ludo-jquery-treetable/jquery-ui.min.js').'?v=' . VERSION_SREADSHEET.'"></script>';
+       echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/ludo-jquery-treetable/jquery.treetable.js').'?v=' . VERSION_SREADSHEET.'"></script>';
+       echo '<script  src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/js/client_sheet.js').'?v=' . VERSION_SREADSHEET.'"></script>';
+       echo '<script  src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/js/context_menu_client.js').'?v=' . VERSION_SREADSHEET.'"></script>';
+       echo '<script type="module" src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/excel.js').'?v=' . VERSION_SREADSHEET.'"></script>';
+       echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/FileSaver.js').'?v=' . VERSION_SREADSHEET.'"></script>';
+       echo '<script  src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/js/exports.js').'?v=' . VERSION_SREADSHEET.'"></script>';
+       echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/TinymceHelper/helper.js').'?v=' . VERSION_SREADSHEET.'"></script>';
+
+   }
+
+   if(!(strpos($viewuri,'spreadsheet_online/spreadsheet_online_client/file_view_share') === false)){
     echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/ComboTree/comboTreePlugin.js').'?v=' . VERSION_SREADSHEET.'"></script>';
     echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/ComboTree/icontains.js').'?v=' . VERSION_SREADSHEET.'"></script>';
     echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/js/spectrum.min.js').'?v=' . VERSION_SREADSHEET.'"></script>';
@@ -333,6 +341,9 @@ function spreadsheet_online_client_foot_js(){
     echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/FileSaver.js').'?v=' . VERSION_SREADSHEET.'"></script>';
     echo '<script  src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/excel.js').'?v=' . VERSION_SREADSHEET.'"></script>';
     echo '<script  src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/js/exports.js').'?v=' . VERSION_SREADSHEET.'"></script>';
+    echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/js/flatpickr.js').'?v=' . VERSION_SREADSHEET.'"></script>';
+    echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/js/dayjs.js').'?v=' . VERSION_SREADSHEET.'"></script>';
+
 }
 if(!(strpos($viewuri,'spreadsheet_online/spreadsheet_online_client/file_word_view_share') === false)){
   echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/ComboTree/comboTreePlugin.js').'?v=' . VERSION_SREADSHEET.'"></script>';
@@ -369,13 +380,15 @@ function init_contracthtml_js(){
         echo 'var admin_url = "' . admin_url() . '";';
         echo '</script>';
         echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/js/contract_related.js').'?v=' . VERSION_SREADSHEET.'"></script>';
-        echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/ludo-jquery-treetable/jquery-ui.min.js').'?v=' . VERSION_SREADSHEET.'"></script>';
+        // echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/ludo-jquery-treetable/jquery-ui.min.js').'?v=' . VERSION_SREADSHEET.'"></script>';
         echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/ludo-jquery-treetable/jquery.treetable.js').'?v=' . VERSION_SREADSHEET.'"></script>';
         echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/js/luckysheet.umd.js').'?v=' . VERSION_SREADSHEET.'"></script>';
         echo '<script type="module" src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/excel.js').'?v=' . VERSION_SREADSHEET.'"></script>';
         echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/FileSaver.js').'?v=' . VERSION_SREADSHEET.'"></script>';
         echo '<script  src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/js/exports.js').'?v=' . VERSION_SREADSHEET.'"></script>';
         echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/js/relate_to.js').'?v=' . VERSION_SREADSHEET.'"></script>';
+        echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/js/flatpickr.js').'?v=' . VERSION_SREADSHEET.'"></script>';
+        echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/js/dayjs.js').'?v=' . VERSION_SREADSHEET.'"></script>';
     }
 }
 }
@@ -517,31 +530,31 @@ function init_contract_item_relate_so($contract){
     require "modules/spreadsheet_online/views/view_related_general.php";
     echo '</div></div>';
 }
- echo '<div class="modal fade" id="AddFolderModal" role="dialog">
-  <div class="modal-dialog">
-  <div class="modal-content">
-  <div class="modal-header">
-  <button type="button" class="close" data-dismiss="modal">&times;</button>
-  <h4 class="modal-title add-new">'. _l('view') .'</h4>
-  <h4 class="modal-title update-new hide">'. _l('update_folder') .'</h4>
-  </div>
-  '. form_open_multipart(admin_url('spreadsheet_online/add_edit_folder'),array('id'=>'add-edit-folder-form')).'
-  '. form_hidden('id') .'
-  <div class="modal-body">
-  <div class="row">
-  <div class="col-md-12 col-sm-12">
-  '. render_input('name', 'name_folder').'
-  </div>
-  </div>
-  '. form_hidden('parent_id') .'             
-  </div>
-  <div class="modal-footer">
-  <button type="button" class="btn btn-default" data-dismiss="modal">'. _l('close') .'</button>
-  </div>
-  '. form_close() .'   
-  </div>
-  </div>
-  </div>';
+echo '<div class="modal fade" id="AddFolderModal" role="dialog">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal">&times;</button>
+<h4 class="modal-title add-new">'. _l('view') .'</h4>
+<h4 class="modal-title update-new hide">'. _l('update_folder') .'</h4>
+</div>
+'. form_open_multipart(admin_url('spreadsheet_online/add_edit_folder'),array('id'=>'add-edit-folder-form')).'
+'. form_hidden('id') .'
+<div class="modal-body">
+<div class="row">
+<div class="col-md-12 col-sm-12">
+'. render_input('name', 'name_folder').'
+</div>
+</div>
+'. form_hidden('parent_id') .'             
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-default" data-dismiss="modal">'. _l('close') .'</button>
+</div>
+'. form_close() .'   
+</div>
+</div>
+</div>';
 }
 
 
@@ -603,7 +616,15 @@ function init_tab_invoice_content($invoice) {
  * Initializes the tab contracthtml.
  */
 function init_tab_expense() {
-  echo '<div class="modal fade" id="AddFolderModal" role="dialog">
+
+   if(is_staff_logged_in()){
+    echo '<li role="presentation" class="tab-separator">
+    <a href="#spreadsheet_online" aria-controls="spreadsheet_online" role="tab" data-toggle="tab">
+    ' . _l('spreadsheet_online') . '  </a>
+    </li>';
+    }
+
+    echo '<div class="modal fade" id="AddFolderModal" role="dialog">
   <div class="modal-dialog">
   <div class="modal-content">
   <div class="modal-header">
@@ -628,12 +649,6 @@ function init_tab_expense() {
   </div>
   </div>
   </div>';
-  if(is_staff_logged_in()){
-    echo '<li role="presentation" class="tab-separator">
-    <a href="#spreadsheet_online" aria-controls="spreadsheet_online" role="tab" data-toggle="tab">
-    ' . _l('spreadsheet_online') . '  </a>
-    </li>';
-}
 }
 
 /**
@@ -656,7 +671,16 @@ function init_tab_expense_content($expense) {
  * Initializes the tab contracthtml.
  */
 function init_tab_lead() {
-  echo '<div class="modal fade" id="AddFolderModal" role="dialog">
+  
+  if(is_staff_logged_in()){
+    echo '<li role="presentation" class="tab-separator">
+    <a href="#spreadsheet_online" aria-controls="spreadsheet_online" role="tab" data-toggle="tab">
+    ' . _l('spreadsheet_online') . '
+    </a>
+    </li>';
+    }
+
+    echo '<div class="modal fade" id="AddFolderModal" role="dialog">
   <div class="modal-dialog">
   <div class="modal-content">
   <div class="modal-header">
@@ -664,7 +688,7 @@ function init_tab_lead() {
   <h4 class="modal-title add-new">'. _l('view') .'</h4>
   <h4 class="modal-title update-new hide">'. _l('update_folder') .'</h4>
   </div>
-  '. form_open_multipart(admin_url('spreadsheet_online/add_edit_folder'),array('id'=>'add-edit-folder-form')).'
+  '. form_open_multipart(admin_url('spreadsheet_online/add_edit_folder')).'
   '. form_hidden('id') .'
   <div class="modal-body">
   <div class="row">
@@ -681,13 +705,6 @@ function init_tab_lead() {
   </div>
   </div>
   </div>';
-  if(is_staff_logged_in()){
-    echo '<li role="presentation" class="tab-separator">
-    <a href="#spreadsheet_online" aria-controls="spreadsheet_online" role="tab" data-toggle="tab">
-    ' . _l('spreadsheet_online') . '
-    </a>
-    </li>';
-}
 }
 
 /**

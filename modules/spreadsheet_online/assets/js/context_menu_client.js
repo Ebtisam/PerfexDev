@@ -259,6 +259,7 @@ function getPosition(e) {
         var role = taskItemInContext.getAttribute('data-tt-role');
         var doc_type = taskItemInContext.getAttribute('data-tt-doctype')
 
+
         var moveToAlbumSelectedId = link.getAttribute("data-action");
         //start
         switch(moveToAlbumSelectedId) {
@@ -274,24 +275,30 @@ function getPosition(e) {
             else if(share == false && doc_type == "word")
             {
               window.location.replace(admin_url + 'spreadsheet_online/new_word_file_view/'+parent_id+'/'+id_set);
-            }
-            else{
-              //alert"is share");
-                                //The issue is from the original Module!! it is use admin_url...I modified it
+            }else{
 
-              $.get(site_url + 'spreadsheet_online/spreadsheet_online_client/get_hash_client/' + id_set).done(function(response) {
+              $.get(site_url + 'spreadsheet_online/spreadsheet_online_client/check_file_exits/'+id_set).done(function(response) {
                 response = JSON.parse(response);
-                if(doc_type == "word")
-                {
-                  window.location.replace(site_url + 'spreadsheet_online/spreadsheet_online_client/file_word_view_share/'+response.hash);
-                }
-                else if(doc_type == "excel")
-                {
-                  window.location.replace(site_url + 'spreadsheet_online/spreadsheet_online_client/file_view_share/'+response.hash);
+                if(response.success){
+                  $.get(site_url + 'spreadsheet_online/spreadsheet_online_client/get_hash_client/' + id_set).done(function(response1) {
+                    response1 = JSON.parse(response1);
+                    if(doc_type == "word")
+                    {
+                      window.location.replace(site_url + 'spreadsheet_online/spreadsheet_online_client/file_word_view_share/'+response1.hash);
+                    }
+                    else if(doc_type == "excel")
+                    {
+                      window.location.replace(site_url + 'spreadsheet_online/spreadsheet_online_client/file_view_share/'+response1.hash);
 
+                    }
+                  })
+                }else{
+                  alert_float('warning', response.message);
                 }
-              })
+              });
             }
+            
+          
           }else{
             $('#AddFolderModal .add-new').addClass('hide');
             $('#AddFolderModal .update-new').removeClass('hide');
@@ -457,17 +464,27 @@ $.get(admin_url + 'spreadsheet_online/get_folder_zip/'+ id_set + '/' + nameClean
 })
 break;
 case "d_file":
-$.get(admin_url + 'spreadsheet_online/get_file_sheet/'+ id_set).done(function(response) {
+$.get(site_url + 'spreadsheet_online/spreadsheet_online_client/check_file_exits/'+id_set).done(function(response) {
   response = JSON.parse(response);
-  if (doc_type == "word")
-  {
-    ExportToDoc(response,name);
+  if(response.success){
+    $.get(admin_url + 'spreadsheet_online/spreadsheet_online_client/get_file_sheet/'+ id_set).done(function(response1) {
+      response1 = JSON.parse(response1);
+      if (doc_type == "word")
+        {
+          ExportToDoc(JSON.parse(response1),name);
+        }
+        else
+        {
+          exportExcel(JSON.parse(response1), name);
+        }
+    })
+  }else{
+    alert_float('warning', response.message);
   }
-  else
-  {
-    exportExcel(JSON.parse(response), name);
-  }
-})
+});
+
+
+
 break;
 case "create_file":
 $("input[name='parent_id']").val(id_set);
@@ -479,9 +496,7 @@ $('.add_folder_button').click();
 break;
 default:
 if(type == 'file'){
-  //alert"default");
   if(share == false){
-    //alert"share is false");
     if(doc_type == "word")
     {
       window.location.replace(admin_url + 'spreadsheet_online/new_word_file_view/'+parent_id+'/'+id_set);
@@ -490,21 +505,28 @@ if(type == 'file'){
     {
       //alert"excel");
       window.location.replace(admin_url + 'spreadsheet_online/new_file_view/'+parent_id+'/'+id_set);
-
     }
   }else{
-    $.get(site_url + 'spreadsheet_online/spreadsheet_online_client/get_hash_client/' + id_set).done(function(response) {
-      response = JSON.parse(response);
-      if(doc_type == "word")
-      {
-        window.location.replace(site_url + 'spreadsheet_online/spreadsheet_online_client/file_word_view_share/'+response.hash);
-      }
-      else if(doc_type == "excel")
-      {
-        window.location.replace(site_url + 'spreadsheet_online/spreadsheet_online_client/file_view_share/'+response.hash);
 
+    $.get(site_url + 'spreadsheet_online/spreadsheet_online_client/check_file_exits/'+id_set).done(function(response) {
+      response = JSON.parse(response);
+      if(response.success){
+        $.get(site_url + 'spreadsheet_online/spreadsheet_online_client/get_hash_client/' + id_set).done(function(response1) {
+          response1 = JSON.parse(response1);
+          if(doc_type == "word")
+          {
+            window.location.replace(site_url + 'spreadsheet_online/spreadsheet_online_client/file_word_view_share/'+response1.hash);
+          }
+          else if(doc_type == "excel")
+          {
+            window.location.replace(site_url + 'spreadsheet_online/spreadsheet_online_client/file_view_share/'+response1.hash);
+    
+          }        })
+      }else{
+        alert_float('warning', response.message);
       }
-    })
+    });
+    
   }
 }else{
   $('#AddFolderModal .add-new').addClass('hide');
